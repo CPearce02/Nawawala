@@ -12,6 +12,11 @@ public class Ground : MonoBehaviour
         EvaluateCollision(collision);
         RetrieveFriction(collision);
     }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        EvaluateCollision(collision);
+        RetrieveFriction(collision);
+    }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -43,6 +48,7 @@ public class Ground : MonoBehaviour
     public bool GetOnGround()
     {
         return onGround;
+
     }
 
     public float GetFriction()

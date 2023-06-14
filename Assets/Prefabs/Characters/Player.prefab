@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpHeight: 8
-  maxAirJumps: 2
+  maxAirJumps: 1
   downwardMovementMultiplier: 4.07
   upwardMovementMultiplier: 1.89
 --- !u!114 &126570366590637410
