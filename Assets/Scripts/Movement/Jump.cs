@@ -86,4 +86,5 @@ public class Jump : MonoBehaviour
     {
         desiredJump |= inputValue.isPressed;
     }
+
 }
