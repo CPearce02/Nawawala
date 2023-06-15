@@ -436,6 +436,10 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7942482190579276078, guid: 6ea3c5eaaf4d02648883b2118ab28663, type: 3}
+      propertyPath: _objectToFollow
+      value: 
+      objectReference: {fileID: 980129220}
+    - target: {fileID: 7942482190579276078, guid: 6ea3c5eaaf4d02648883b2118ab28663, type: 3}
       propertyPath: _lostSoulChasePositions.Array.size
       value: 32
       objectReference: {fileID: 0}
@@ -29959,7 +29963,7 @@ GameObject:
   m_Layer: 0
   m_Name: Follow
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

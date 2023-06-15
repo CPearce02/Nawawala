@@ -22,8 +22,10 @@ public class LostSoulBehaviour : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private float _moveSpeed;
     [SerializeField] bool _isMoving;
-    [SerializeField] bool _followingPlayer;
     [SerializeField] bool _canPickUp;
+
+    [SerializeField] GameObject _objectToFollow;
+    private bool _followingPlayer;
 
     void Start()
     {
@@ -54,7 +56,8 @@ public class LostSoulBehaviour : MonoBehaviour
                 if(!_followingPlayer)
                 {
                     _followingPlayer = true;
-                    transform.parent = other.gameObject.transform;
+                    transform.parent = _objectToFollow.transform;
+                    transform.position = _objectToFollow.transform.position;
                 }
                 Debug.Log("Picked up this soul: " + gameObject.name);
             }
