@@ -6,28 +6,28 @@ using UnityEngine.UI;
 
 public class Jump : MonoBehaviour
 {
-    [SerializeField, Range(0f, 10f)] private float jumpHeight = 8f;
-    [SerializeField, Range(0, 5)] private int maxAirJumps = 1;
-    [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f;
-    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 1.7f;
+    [SerializeField, Range(0f, 10f)] private float _jumpHeight = 8f;
+    [SerializeField, Range(0, 5)] private int _maxAirJumps = 1;
+    [SerializeField, Range(0f, 5f)] private float _downwardMovementMultiplier = 3f;
+    [SerializeField, Range(0f, 5f)] private float _upwardMovementMultiplier = 1.7f;
 
-    private Vector2 velocity;
-    private Rigidbody2D rb;
-    private Ground ground;
+    private Vector2 _velocity;
+    private Rigidbody2D _rb;
+    private Ground _ground;
 
-    private int jumpPhase;
-    private float defaultGravityScale;
+    private int _jumpPhase;
+    private float _defaultGravityScale;
     
-    private bool desiredJump;
-    private bool onGround;
+    private bool _desiredJump;
+    private bool _onGround;
+
     
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        ground = GetComponent<Ground>();
-
-        defaultGravityScale = 1f;
+        _rb = GetComponent<Rigidbody2D>();
+        _ground = GetComponent<Ground>();
+        _defaultGravityScale = 1f;
     }
 
     // Update is called once per frame
@@ -38,53 +38,53 @@ public class Jump : MonoBehaviour
 
     private void FixedUpdate()
     {
-        onGround = ground.GetOnGround();
-        velocity = rb.velocity;
+        _onGround = _ground.GetOnGround();
+        _velocity = _rb.velocity;
 
-        if(onGround)
+        if(_onGround)
         {
-            jumpPhase = 0;
+            _jumpPhase = 0;
         }
 
-        if(desiredJump)
+        if(_desiredJump)
         {
-            desiredJump = false;
+            _desiredJump = false;
             JumpAction();
         }
 
-        if(rb.velocity.y > 0)
+        if(_rb.velocity.y > 0)
         {
-            rb.gravityScale = upwardMovementMultiplier;
+            _rb.gravityScale = _upwardMovementMultiplier;
         }
-        else if(rb.velocity.y < 0)
+        else if(_rb.velocity.y < 0)
         {
-            rb.gravityScale = downwardMovementMultiplier;
+            _rb.gravityScale = _downwardMovementMultiplier;
         }
-        else if(rb.velocity.y == 0)
+        else if(_rb.velocity.y == 0)
         {
-            rb.gravityScale = defaultGravityScale;
+            _rb.gravityScale = _defaultGravityScale;
         }
 
-        rb.velocity = velocity;
+        _rb.velocity = _velocity;
     }
 
     private void JumpAction()
     {
-        if(onGround || jumpPhase<maxAirJumps)
+        if(_onGround || _jumpPhase<_maxAirJumps)
         {
-            jumpPhase += 1;
-            float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * jumpHeight);
-            if(velocity.y > 0f)
+            _jumpPhase += 1;
+            float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * _jumpHeight);
+            if(_velocity.y > 0f)
             {
-                jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
+                jumpSpeed = Mathf.Max(jumpSpeed - _velocity.y, 0f);
             }
-            velocity.y += jumpSpeed;
+            _velocity.y += jumpSpeed;
         }
     }
 
     private void OnJump(InputValue inputValue)
     {
-        desiredJump |= inputValue.isPressed;
+        _desiredJump |= inputValue.isPressed;
     }
 
 }

@@ -21,7 +21,7 @@ public class Dash : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tr = GetComponent<TrailRenderer>();
+        // tr = GetComponent<TrailRenderer>();
         rb = GetComponent<Rigidbody2D>();
         j = GetComponent<Jump>();
         m = GetComponent<Move>();
@@ -41,9 +41,9 @@ public class Dash : MonoBehaviour
         rb.gravityScale = 0f;
         j.enabled = false;
         rb.velocity = new Vector2(rb.velocity.x *dashingPower, rb.velocity.y * 0.5f);
-        tr.emitting = true;
+        // tr.emitting = true;
         yield return new WaitForSeconds(dashingTime);
-        tr.emitting = false;
+        // tr.emitting = false;
         rb.gravityScale = originalGravity;
         isDashing = false;
         j.enabled = true;

@@ -22,6 +22,7 @@ public class LostSoulBehaviour : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private float _moveSpeed;
     [SerializeField] bool _isMoving;
+    [SerializeField] bool _followingPlayer;
     [SerializeField] bool _canPickUp;
 
     void Start()
@@ -49,6 +50,12 @@ public class LostSoulBehaviour : MonoBehaviour
             else if(_canPickUp)
             {
                 //CODE HERE FOR WHAT HAPPENS WHEN PLAYER PICKS UP SOUL
+                //Temp follow
+                if(!_followingPlayer)
+                {
+                    _followingPlayer = true;
+                    transform.parent = other.gameObject.transform;
+                }
                 Debug.Log("Picked up this soul: " + gameObject.name);
             }
             else
