@@ -101,21 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _detectPlayerCol: {fileID: 5231437514868485607}
   _pickUpCol: {fileID: 8269841550842273236}
-  _lostSoulHoverPositions:
-  - {x: -4, y: 22.82, z: 0}
-  - {x: -64.77, y: 19.47, z: 0}
-  - {x: -39.14, y: 18.19, z: 0}
-  - {x: -39.14, y: 18.19, z: 0}
-  - {x: -39.14, y: 18.19, z: 0}
-  _lostSoulChasePositions:
-  - {x: -34.53, y: 18.51, z: 0}
-  - {x: -22.09, y: 24.17, z: 0}
-  - {x: -16.88, y: 16.93, z: 0}
-  - {x: -4, y: 22.82, z: 0}
-  - {x: -19.73, y: 35.68, z: 0}
-  - {x: -47.68, y: 28.73, z: 0}
-  - {x: -64.77, y: 19.47, z: 0}
-  - {x: -39.14, y: 18.19, z: 0}
+  _lostSoulHoverPositions: []
+  _lostSoulChasePositions: []
   hoverPosCounter: 0
   chasePosCounter: 0
   _moveSpeed: 8
