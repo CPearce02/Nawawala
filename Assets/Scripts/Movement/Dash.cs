@@ -40,7 +40,7 @@ public class Dash : MonoBehaviour
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
         j.enabled = false;
-        rb.velocity = new Vector2(rb.velocity.x *dashingPower, 0f);
+        rb.velocity = new Vector2(rb.velocity.x *dashingPower, rb.velocity.y * 0.5f);
         tr.emitting = true;
         yield return new WaitForSeconds(dashingTime);
         tr.emitting = false;
