@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 3871197808004615875}
   - component: {fileID: 126570366590637410}
   - component: {fileID: 6294531535188168630}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -363,10 +363,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2ae459fefd2134aa03fc30630f82d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 8
-  maxAirJumps: 1
-  downwardMovementMultiplier: 4.07
-  upwardMovementMultiplier: 1.89
+  _jumpHeight: 8
+  _maxAirJumps: 1
+  _downwardMovementMultiplier: 3
+  _upwardMovementMultiplier: 1.7
 --- !u!114 &126570366590637410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,9 +379,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4734fda5470e609449ad855a6065d23e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 17.1
-  maxAcceleration: 84.6
-  maxAirAcceleration: 0.7
+  _maxSpeed: 15
+  _maxAcceleration: 50
+  _maxAirAcceleration: 45
 --- !u!114 &6294531535188168630
 MonoBehaviour:
   m_ObjectHideFlags: 0
