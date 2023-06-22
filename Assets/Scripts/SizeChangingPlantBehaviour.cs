@@ -22,10 +22,12 @@ public class SizeChangingPlantBehaviour : MonoBehaviour
     {
         if(AmIExpanded)
         {
+            _boxCol2D.isTrigger = false;
             _anim.Play(ALREXPAND);
         }
         else if(!AmIExpanded)
         {
+            _boxCol2D.isTrigger = true;
             _anim.Play(ALRSHRINK);
         }
 
@@ -83,12 +85,12 @@ public class SizeChangingPlantBehaviour : MonoBehaviour
 
         if(AmIExpanded)
         {
-            //_boxCol2D.enabled = true;
+            _boxCol2D.isTrigger = true;
             _anim.Play(SHRINK);
         }
         else if(!AmIExpanded)
         {
-            //_boxCol2D.enabled = false;
+            _boxCol2D.isTrigger = false;
             _anim.Play(EXPAND);
         }
 
