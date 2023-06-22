@@ -10,6 +10,7 @@ public class LostSoulBehaviour : MonoBehaviour
     [Header("References")]
     [SerializeField] private Collider2D _detectPlayerCol;
     [SerializeField] private Collider2D _pickUpCol;
+    private SoulManager _sm;
 
 
     [Header("Points")]
@@ -24,9 +25,6 @@ public class LostSoulBehaviour : MonoBehaviour
     [SerializeField] bool _isMoving;
     [SerializeField] bool _canPickUp;
 
-    [SerializeField] GameObject _objectToFollow;
-    private bool _followingPlayer;
-
     void Start()
     {
         _detectPlayerCol.enabled = true;
@@ -34,6 +32,7 @@ public class LostSoulBehaviour : MonoBehaviour
         _canPickUp = false;
         hoverPosCounter = 0;
         chasePosCounter = 0;
+        _sm = GetComponent<SoulManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -52,12 +51,9 @@ public class LostSoulBehaviour : MonoBehaviour
             else if(_canPickUp)
             {
                 //CODE HERE FOR WHAT HAPPENS WHEN PLAYER PICKS UP SOUL
-                //Temp follow
-                if(!_followingPlayer)
+                if (!_sm.isFollowing) 
                 {
-                    _followingPlayer = true;
-                    transform.parent = _objectToFollow.transform;
-                    transform.position = _objectToFollow.transform.position;
+                    GameEvents.onSoulCollect.Invoke(_sm);
                 }
                 Debug.Log("Picked up this soul: " + gameObject.name);
             }

@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 3871197808004615875}
   - component: {fileID: 126570366590637410}
   - component: {fileID: 6294531535188168630}
+  - component: {fileID: 905328971339543360}
+  - component: {fileID: 5371726225904175342}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -37,7 +39,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4842139397950604523}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -367,6 +370,8 @@ MonoBehaviour:
   _maxAirJumps: 1
   _downwardMovementMultiplier: 3
   _upwardMovementMultiplier: 1.7
+  _coyoteTimer: 0.3
+  _jumpBufferTime: 0.2
 --- !u!114 &126570366590637410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,3 +402,61 @@ MonoBehaviour:
   dashingPower: 6.8
   dashingTime: 0.3
   dashingCooldown: 0.5
+--- !u!114 &905328971339543360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682806117145108767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3def2ffff48d3f49ad4532f1dafacc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 7262416286122083870}
+  flipThreshold: 0.1
+--- !u!114 &5371726225904175342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682806117145108767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 008a6b88f22495f428b4aae87eba0235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _followObject: {fileID: 0}
+--- !u!1 &3242840387144084907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4842139397950604523}
+  m_Layer: 3
+  m_Name: FollowObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4842139397950604523
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3242840387144084907}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.89, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5751130214425220685}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

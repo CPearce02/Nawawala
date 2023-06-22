@@ -17,6 +17,7 @@ public class Dash : MonoBehaviour
     private Rigidbody2D rb;
     private Move m;
     private Jump j;
+    private Vector2 _direction;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +41,7 @@ public class Dash : MonoBehaviour
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
         j.enabled = false;
-        rb.velocity = new Vector2(rb.velocity.x *dashingPower, rb.velocity.y * 0.5f);
+        rb.velocity = new Vector2(rb.velocity.x * dashingPower, rb.velocity.y * 0.5f);
         // tr.emitting = true;
         yield return new WaitForSeconds(dashingTime);
         // tr.emitting = false;

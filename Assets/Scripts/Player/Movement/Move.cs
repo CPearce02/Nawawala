@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class Move : MonoBehaviour
 {
@@ -51,8 +48,5 @@ public class Move : MonoBehaviour
         _direction.x = inputValue.Get<Vector2>().x;
     }
 
-    private void OnReset()
-    {
-        SceneManager.LoadScene(0);
-    }
+
 }

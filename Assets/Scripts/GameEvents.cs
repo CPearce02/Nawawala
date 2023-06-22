@@ -15,4 +15,8 @@ public static class GameEvents
     public static GameStartSetUp gameStartSetUp;
     public static GameEndSetUp gameEndSetUp;
     public static GameFreezeState gameFreezeState;
+
+    public delegate void SoulCollect(SoulManager sm);
+
+    public static SoulCollect onSoulCollect;
 }
