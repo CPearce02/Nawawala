@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public static class GameEvents
 {
@@ -17,6 +18,8 @@ public static class GameEvents
     public static GameFreezeState gameFreezeState;
 
     public delegate void SoulCollect(SoulManager sm);
+    public delegate void AbilityLock(string ability, bool lockState);
 
     public static SoulCollect onSoulCollect;
+    public static AbilityLock onAbilityLock;
 }
