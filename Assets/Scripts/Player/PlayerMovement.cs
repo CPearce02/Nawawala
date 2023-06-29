@@ -49,9 +49,9 @@ public class PlayerMovement : MonoBehaviour
         _inputActions = GetComponent<PlayerInput>();
         _defaultGravityScale = 1f;
 
-        //Base
-        SetAirJump(0);
-        GameEvents.onAbilityLock("Dash", true);
+        ////Base
+        //SetAirJump(0);
+        //GameEvents.onAbilityLock("Dash", true);
     }
 
     private void OnEnable()
