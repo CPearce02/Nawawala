@@ -10,6 +10,7 @@ namespace Enemies.EnemyStates
         private EnemyStateMachine _enemy;
         private float _waitTime = 3;
         private bool _inPosition;
+        private bool _attacked;
 
         public ChaseState(Vector3 position)
         {
@@ -29,6 +30,11 @@ namespace Enemies.EnemyStates
                 _enemy.ChangeState(new ChaseState(_enemy.player.transform.position));
             }
 
+            if (_attacked)
+            {
+                _enemy.ChangeState(new IdleState());
+            }
+
             GoToPosition();
             if (!_inPosition) return;
 
@@ -39,13 +45,19 @@ namespace Enemies.EnemyStates
                 var hit = Physics2D.OverlapCircle(_enemy.transform.position, 8);
                 if (hit != null && hit.TryGetComponent(out PlayerManager player))
                 {
-                    Debug.Log("Attack");
+                    if (player.collectedSouls != null && !_attacked)
+                    {
+                        //player.DisperseSouls();
+                        _attacked = true;
+                    }
                 }
             }
             else 
             {
                 _enemy.ChangeState(new IdleState());
             }
+
+            
         }
 
         private void GoToPosition() 

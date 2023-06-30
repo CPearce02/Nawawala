@@ -45,6 +45,16 @@ namespace Enemies
             CurrentState.Enter(this);
         }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if(collision.TryGetComponent<PlayerManager>(out PlayerManager pm)) 
+            {
+                if(pm.collectedSouls.Count > 0) 
+                {
+                    pm.DisperseSouls();
+                }
+            }
+        }
 
     }
 }
