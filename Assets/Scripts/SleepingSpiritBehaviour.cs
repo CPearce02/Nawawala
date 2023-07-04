@@ -2,18 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SleepingSpiritBehaviour : MonoBehaviour
+public class SleepingSpiritBehaviour : SingableObject
 {
     [Header("References")]
     [SerializeField] private Collider2D _col2D;
     [SerializeField] private SpriteRenderer _spriteRenderer;
-
+    [SerializeField] private PitchReceiver _pitchReceiver;
 
     [Header("Variables")]
     public PitchLevel _pitchTarget;
     [SerializeField] private float _moveSpeed;
 
-    Coroutine TryingToDetectPitchCO;
+    private Transform _playerPos;
+
+    //Coroutine TryingToDetectPitchCO;
+
+    private void Awake() 
+    {
+        SetUpPitchReciever();
+    }
+
+    public override void SetUpPitchReciever()
+    {
+        if(_pitchReceiver == null)
+        {
+            foreach (Transform child in transform)
+            {
+                if(child.TryGetComponent<PitchReceiver>(out PitchReceiver pitchReceiver))
+                {
+                    _pitchReceiver = pitchReceiver;
+                }
+            }
+        }
+        _pitchReceiver.Init(PlayPitchBehaviour, _pitchTarget);
+    }
+
+    public override void PlayPitchBehaviour()
+    {
+        StartCoroutine(MoveToSingingSpot());
+    }
 
     void Start()
     {
@@ -32,33 +59,14 @@ public class SleepingSpiritBehaviour : MonoBehaviour
             //Green
             _spriteRenderer.color = new Color32(0,238,3,255);
         }
+
+        _playerPos = PlayerManager.PlayerTrans;
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
-    {
-        if(other.TryGetComponent<TempPlayerSing>(out TempPlayerSing tempPlayerSing))
-        {
-            if(tempPlayerSing.IsSinging)
-            {
-                TryingToDetectPitchCO = StartCoroutine(DetectRightPitch(tempPlayerSing));
-            }
-        }
-    }
-
-    IEnumerator DetectRightPitch(TempPlayerSing tempPlayerSing)
-    {
-        while (tempPlayerSing.CurrentPitchLevel != _pitchTarget)
-        {
-            yield return null;
-        }
-
-        StartCoroutine(MoveToSingingSpot(tempPlayerSing));
-    }
-
-    IEnumerator MoveToSingingSpot(TempPlayerSing tempPlayerSing)
+    IEnumerator MoveToSingingSpot()
     {
         _col2D.enabled = false;
-        float xPos = tempPlayerSing.transform.position.x;
+        float xPos = PlayerManager.PlayerTrans.position.x;
         Vector3 targetPos = new Vector3(xPos, transform.position.y);
 
         while (transform.position != targetPos)
@@ -70,11 +78,38 @@ public class SleepingSpiritBehaviour : MonoBehaviour
         _col2D.enabled = true;
     }
 
-    private void OnTriggerExit2D(Collider2D other) 
-    {
-        if(TryingToDetectPitchCO != null)
-        {
-            StopCoroutine(TryingToDetectPitchCO);
-        }
-    }
+
+
+    // private void OnTriggerEnter2D(Collider2D other) 
+    // {
+    //     if(other.TryGetComponent<TempPlayerSing>(out TempPlayerSing tempPlayerSing))
+    //     {
+    //         if(tempPlayerSing.IsSinging)
+    //         {
+    //             TryingToDetectPitchCO = StartCoroutine(DetectRightPitch(tempPlayerSing));
+    //         }
+    //     }
+    // }
+
+    // IEnumerator DetectRightPitch(TempPlayerSing tempPlayerSing)
+    // {
+    //     while (tempPlayerSing.CurrentPitchLevel != _pitchTarget)
+    //     {
+    //         yield return null;
+    //     }
+
+    //     StartCoroutine(MoveToSingingSpot(tempPlayerSing));
+    // }
+
+
+
+    // private void OnTriggerExit2D(Collider2D other) 
+    // {
+    //     if(TryingToDetectPitchCO != null)
+    //     {
+    //         StopCoroutine(TryingToDetectPitchCO);
+    //     }
+    // }
+
+
 }

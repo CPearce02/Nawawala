@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Testing/ChasePuzzle.unity
-    guid: f8d653713dea3154b8268a7dce9e3145
+    path: Assets/Scenes/Levels/Level1.unity
+    guid: 872baebfa256c00478f714c0bbb75c8f
   m_configObjects: {}

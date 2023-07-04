@@ -2,32 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SizeChangingPlantBehaviour : MonoBehaviour
+public class SizeChangingPlantBehaviour : SingableObject
 {
     public PitchLevel _pitchTarget;
     [SerializeField] private bool AmIExpanded;
 
-    [Header("Animator")]
-    [SerializeField] private Animator _anim;
+
+    [Header("References")]
     [SerializeField] private Collider2D _boxCol2D;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private PitchReceiver _pitchReceiver;
+
+
+    [Header("Animator")]
+    [SerializeField] private Animator _anim;
     const string EXPAND = "ShapeChangingPlant_Expand";
     const string SHRINK = "ShapeChangingPlant_Shrink";
     const string ALREXPAND = "ShapeChangingPlant_AlrExpand";
     const string ALRSHRINK = "ShapeChangingPlant_AlrShrink";
 
-    Coroutine TryingToChangeStateCO;
+    private void Awake() 
+    {
+        SetUpPitchReciever();
+    }
+
+    public override void SetUpPitchReciever()
+    {
+        if(_pitchReceiver == null)
+        {
+            _pitchReceiver.GetComponent<PitchReceiver>();
+        }
+        _pitchReceiver.Init(PlayPitchBehaviour, _pitchTarget);
+    }
+
+    public override void PlayPitchBehaviour()
+    {
+        ChangeSize();
+    }
 
     private void Start() 
     {
         if(AmIExpanded)
         {
-            _boxCol2D.isTrigger = false;
+            _boxCol2D.enabled = true;
             _anim.Play(ALREXPAND);
         }
         else if(!AmIExpanded)
         {
-            _boxCol2D.isTrigger = true;
+            _boxCol2D.enabled = false;
             _anim.Play(ALRSHRINK);
         }
 
@@ -48,60 +70,19 @@ public class SizeChangingPlantBehaviour : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    private void ChangeSize()
     {
-        if(other.TryGetComponent<TempPlayerSing>(out TempPlayerSing tempPlayerSing))
-        {
-            Debug.Log(tempPlayerSing.IsSinging);
-            if(tempPlayerSing.IsSinging)
-            {
-                StartCoroutine(ChangeMyState(tempPlayerSing));
-            }
-        }
-    }
-
-    IEnumerator ChangeMyState(TempPlayerSing tempPlayerSing)
-    {
-        float singToMeDuration = 0;
-        while (singToMeDuration < 1f)
-        {
-            if(tempPlayerSing.CurrentPitchLevel == _pitchTarget)
-            {
-                singToMeDuration += Time.deltaTime;
-            }
-            else
-            {
-                if(singToMeDuration - Time.deltaTime > 0)
-                {
-                    singToMeDuration -= Time.deltaTime;
-                }
-                else
-                {
-                    singToMeDuration = 0;
-                }
-            }
-            yield return null;
-        }
-
         if(AmIExpanded)
         {
-            _boxCol2D.isTrigger = true;
+            _boxCol2D.enabled = false;
             _anim.Play(SHRINK);
         }
         else if(!AmIExpanded)
         {
-            _boxCol2D.isTrigger = false;
+            _boxCol2D.enabled = true;
             _anim.Play(EXPAND);
         }
 
         AmIExpanded = !AmIExpanded;
-    }
-
-    private void OnTriggerExit2D(Collider2D other) 
-    {
-        if(TryingToChangeStateCO != null)
-        {
-            StopCoroutine(TryingToChangeStateCO);
-        }
     }
 }

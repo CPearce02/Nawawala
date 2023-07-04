@@ -14,24 +14,25 @@ public class TempPlayerSing : MonoBehaviour
     public PitchLevel CurrentPitchLevel;
     [SerializeField] private float _singingLevel;
     [SerializeField] private float _singingStrength;
-    private const float MaxSingingLevel = 100f;
-    [SerializeField] private CircleCollider2D _singingDetection;
-    Coroutine delayCo;
 
+    private bool _isSinging;
+    private bool _reachedMaxPitch;
+    private const float MaxSingingLevel = 100f;
+
+    [Header("Singing")]
+    [SerializeField] private float _singDistance;
+    [SerializeField] private LayerMask _singingLayerMask;
+    
     void Update()
     {
         if(Input.GetMouseButtonDown(1))
         {
             IsSinging = true;
-            _singingDetection.enabled = true;
+            _isSinging = true;
             UiManager.Instance.SingingBarState(true, this);
-            if(delayCo != null)
-            {
-                StopCoroutine(delayCo);
-            }
         }
-        
-        if(Input.GetMouseButton(1))
+
+        if(_isSinging)
         {
             if(_singingLevel + Time.deltaTime*_singingStrength <= MaxSingingLevel)
             {
@@ -40,59 +41,55 @@ public class TempPlayerSing : MonoBehaviour
             else
             {
                 _singingLevel = MaxSingingLevel;
+                _reachedMaxPitch = true;
             }
 
-            if(SingingLevel < 33)
+            if(SingingLevel < 34)
             {
                 CurrentPitchLevel = PitchLevel.LowPitch;
             }
-            else if(SingingLevel < 66)
+            else if(SingingLevel < 67)
             {
                 CurrentPitchLevel = PitchLevel.MediumPitch;
             }
-            else if(SingingLevel <= 100)
+            else if(SingingLevel < 100)
             {
                 CurrentPitchLevel = PitchLevel.HighPitch;
+                
             }
         }
-        else
+
+        if(Input.GetMouseButtonUp(1) || _reachedMaxPitch)
         {
-            if(_singingLevel - Time.deltaTime*_singingStrength > 0)
+            _reachedMaxPitch = false;
+
+            _isSinging = false;
+
+            RaycastHit2D[] raycasthits = Physics2D.CircleCastAll(transform.position, _singDistance, Vector2.zero, 0f, _singingLayerMask);
+
+            foreach (var hit in raycasthits)
             {
-                _singingLevel -= Time.deltaTime*_singingStrength;
-            }
-            else
-            {
-                if(delayCo != null)
+                if(hit.transform.TryGetComponent<PitchReceiver>(out PitchReceiver pitchReceiver))
                 {
-                    StopCoroutine(delayCo);
+                    pitchReceiver.PitchCall(CurrentPitchLevel);
                 }
-                TurnOffSinging();
             }
-        }
-        
-        if(Input.GetMouseButtonUp(1))
-        {
-            delayCo = StartCoroutine(DelayTurnOffSinging());
+
+            TurnOffSinging();
         }
     }
 
-    IEnumerator DelayTurnOffSinging()
-    {
-        yield return new WaitForSeconds(1f);
-        TurnOffSinging();
-    }
 
     private void TurnOffSinging()
     {
-        IsSinging = false;
-        _singingDetection.enabled = false;
         UiManager.Instance.SingingBarState(false, this);
         _singingLevel = 0;
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    private void OnDrawGizmos()
     {
-        //Debug.Log("Champ");
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(transform.position, _singDistance);
     }
 }

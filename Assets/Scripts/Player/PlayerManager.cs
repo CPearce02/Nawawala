@@ -6,9 +6,31 @@ using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField]private Transform _followObject;
+    [SerializeField] private Transform _player;
+    public static Transform PlayerTrans{get; private set;} 
+
+    [SerializeField] private Transform _followObject;
     private float _currentOffSet = 0.75f;
     public List<SoulManager> collectedSouls = new List<SoulManager>();
+
+    private void Awake() 
+    {   
+        if(_followObject == null)
+        {
+            _followObject = GameObject.Find("FollowObj").transform;
+        }
+        
+        if(_player == null)
+        {
+            _player = FindObjectOfType<PlayerMovement>().transform;
+        }
+        PlayerTrans = _player;
+    }
+
+    private void Start()
+    {
+        
+    }
 
     private void OnEnable()
     {
@@ -19,17 +41,6 @@ public class PlayerManager : MonoBehaviour
         GameEvents.onSoulCollect -= AddSoul;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _followObject = GameObject.Find("FollowObj").transform;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-            
-    }
 
     private void AddSoul(SoulManager sm) 
     {
