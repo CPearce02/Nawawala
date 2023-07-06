@@ -6,34 +6,35 @@ using UnityEngine.UIElements;
 public class Parallax : MonoBehaviour
 {
     [Header("ParallaxEffect")]
-    private float _spriteLength, _startPos, _yPos;
-    [SerializeField] private GameObject _cam;
-    [SerializeField] private float _parallaxEffect;
+    private float _spriteSize, _startXPos, _startYPos;
+    [SerializeField] private Transform _camTransform;
+    [SerializeField] private float _parallaxSpeed;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        _startPos = transform.position.x;
-        _yPos = transform.position.y;
-        _spriteLength = GetComponent<SpriteRenderer>().bounds.size.x;
+        _camTransform = Camera.main.transform;
+        _startXPos = transform.position.x;
+        _startYPos = transform.position.y;
+        _spriteSize = GetComponent<SpriteRenderer>().bounds.size.x;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float _temp = (_cam.transform.position.x * (1 - _parallaxEffect));
-        float _dist = (_cam.transform.position.x * _parallaxEffect);
-        float _ydist = (_cam.transform.position.y * _parallaxEffect);
+        float _relativeDist = _camTransform.position.x * _parallaxSpeed;
+        float _relativeDistY = _camTransform.position.y * _parallaxSpeed;
+        transform.position = new Vector3(_startXPos + _relativeDist, _startYPos + _relativeDistY, transform.position.z);
 
-        transform.position = new Vector3(_startPos + _dist, _yPos + _ydist, transform.position.z);
-        if (_temp > _startPos + _spriteLength)
+        float _relativeCameraDist = _camTransform.position.x * (1 - _parallaxSpeed);
+        if(_relativeCameraDist > _startXPos + _spriteSize) 
         {
-           _startPos += _spriteLength;
+            _startXPos += _spriteSize;
         }
-        else if (_temp < _startPos - _spriteLength)
+        else if(_relativeCameraDist < _startXPos - _spriteSize) 
         {
-           _startPos  -= _spriteLength;
+            _startXPos -= _spriteSize;
         }
     }
 }
