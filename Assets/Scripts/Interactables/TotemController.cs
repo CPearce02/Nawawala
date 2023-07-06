@@ -33,6 +33,7 @@ public class TotemController : SingableObject
                 _targetAbility = DASH;
                 break;
         }
+
     }
 
     public override void SetUpPitchReciever()
