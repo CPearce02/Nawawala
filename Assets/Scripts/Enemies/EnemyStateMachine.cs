@@ -34,9 +34,9 @@ namespace Enemies
 
         public override void SetUpPitchReciever()
         {
-            if(_pitchReceiver == null)
+            if (_pitchReceiver == null)
             {
-                //_pitchReceiver.GetComponent<PitchReceiver>();
+                _pitchReceiver.GetComponent<PitchReceiver>();
             }
             _pitchReceiver.Init(PlayPitchBehaviour, _pitchTarget);
         }
