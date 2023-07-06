@@ -42,6 +42,8 @@ public class CameraEffectsSystem : MonoBehaviour
     private float _zoomIntoAngleDuration;
     private float _angleIntensity;
 
+
+
     private void Awake() 
     {
         if(Instance == null)
