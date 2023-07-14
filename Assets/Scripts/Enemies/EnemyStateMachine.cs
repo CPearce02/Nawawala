@@ -13,7 +13,7 @@ namespace Enemies
 
         [Header("Pitch Stuff")]
         [SerializeField] private PitchReceiver _pitchReceiver;
-        [SerializeField] private PitchLevel _pitchTarget;
+        [SerializeField] private PitchLevel[] _pitchTarget;
         
 
         [Header("Settings")]

@@ -2,50 +2,141 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WindTunnelBehaviour : MonoBehaviour
+public class WindTunnelBehaviour : SingableObject
 {
-    [SerializeField] private Transform[] positions;  
-    [SerializeField] private float _pullSpeed;      
-    private bool isPulling = false;    
-    private int currentIndex = 0;      
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private enum WindDirection
     {
-        if (collision.CompareTag("Player"))
+        Left, Right, Up, Down
+    }
+    [SerializeField] private bool _isMyPlantSingable = true;
+
+    [Header("Initialisation")]
+    [SerializeField] private WindDirection _windDirection;
+    [SerializeField] private PitchLevel[] _pitchTarget;
+    [SerializeField] private PitchReceiver _pitchReceiver;
+
+
+    [Header("Other")]
+    [SerializeField] private float _pushSpeed;  
+    [SerializeField] private float _windDuration;    
+    private bool isPushing;
+
+    Coroutine PushingPlayerCo;    
+    private Rigidbody2D _playerRb;
+    private Vector2 _pushDir;
+    private bool _isActive;
+
+    private void Awake() 
+    {
+        if(_isMyPlantSingable)
         {
-            isPulling = true;
-            currentIndex = 0;  
+            SetUpPitchReciever();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void Start() 
     {
-        if (collision.CompareTag("Player"))
+        switch (_windDirection)
         {
-            isPulling = false;
+            case WindDirection.Left:
+                _pushDir = new Vector2(-1, 0);
+                break;
+            case WindDirection.Right:
+                _pushDir = new Vector2(1, 0);
+                break;
+            case WindDirection.Up:
+                _pushDir = new Vector2(0, 1);
+                break;
+            case WindDirection.Down:
+                _pushDir = new Vector2(0, -1);
+                break;
         }
     }
 
-    private void FixedUpdate()
+    public override void SetUpPitchReciever()
     {
-        if (isPulling)
+        if(_pitchReceiver == null)
         {
-            Transform currentEndPos = positions[currentIndex];
+            _pitchReceiver.GetComponentInChildren<PitchReceiver>();
+        }
+        _pitchReceiver.Init(PlayPitchBehaviour, _pitchTarget);
+    }
 
-            Vector2 direction = (currentEndPos.position - transform.position).normalized;
+    public override void PlayPitchBehaviour()
+    {
+        if(!_isActive)
+        {
+            StartWind();
+        }
+    }
 
-            Rigidbody2D playerRigidbody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
-            playerRigidbody.velocity = direction * _pullSpeed;
+    private void StartWind()
+    {
+        _isActive = true;
+        StartCoroutine(TurnOffWindTunnel());
+    }
 
-            float distance = Vector2.Distance(transform.position, currentEndPos.position);
-            if (distance < 0.1f)
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.TryGetComponent<PlayerMovement>(out PlayerMovement playerMovement) && !isPushing)
+        {
+            isPushing = true;
+            playerMovement.enabled = false;
+            _playerRb = playerMovement.GetComponent<Rigidbody2D>();
+            PushingPlayerCo = StartCoroutine(PushPlayer());
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.TryGetComponent<PlayerMovement>(out PlayerMovement playerMovement))
+        {
+            isPushing = false;
+            if(PushingPlayerCo != null)
             {
-                currentIndex++;
-                if (currentIndex >= positions.Length)
-                {
-                    currentIndex = 0;  
-                }
+                StopCoroutine(PushingPlayerCo);
             }
+            playerMovement.enabled = true;
         }
     }
+
+
+    IEnumerator PushPlayer()
+    {
+        while (true)
+        {
+            _playerRb.AddForce(_pushDir, ForceMode2D.Impulse);
+            yield return null;
+        }
+    }
+
+
+    IEnumerator TurnOffWindTunnel()
+    {
+        yield return new WaitForSeconds(_windDuration);
+        _isActive = false;
+    }
+
+    // private void FixedUpdate()
+    // {
+    //     if (isPulling)
+    //     {
+    //         Transform currentEndPos = positions[currentIndex];
+
+    //         Vector2 direction = (currentEndPos.position - transform.position).normalized;
+
+    //         Rigidbody2D playerRigidbody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
+    //         playerRigidbody.velocity = direction * _pullSpeed;
+
+    //         float distance = Vector2.Distance(transform.position, currentEndPos.position);
+    //         if (distance < 0.1f)
+    //         {
+    //             currentIndex++;
+    //             if (currentIndex >= positions.Length)
+    //             {
+    //                 currentIndex = 0;  
+    //             }
+    //         }
+    //     }
+    // }
 }

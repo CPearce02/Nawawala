@@ -10,7 +10,7 @@ public class TotemController : SingableObject
     }
 
     [SerializeField] private UnlockAbility _abilityToUnlock;
-    [SerializeField] private PitchLevel _pitchTarget;
+    [SerializeField] private PitchLevel[] _pitchTarget;
     private bool _activated;
 
     private string _targetAbility;
