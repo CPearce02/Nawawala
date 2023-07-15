@@ -41,6 +41,10 @@ public class PlayerMovement : MonoBehaviour
     private Ground _ground;
     private PlayerInput _inputActions;
 
+
+    [SerializeField] private Animator _anim;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _anim.SetFloat("Speed", _rb.velocity.x);
         _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(_maxSpeed - _ground.GetFriction(), 0f);
     }
 
