@@ -10,7 +10,7 @@ public class SleepingSpiritBehaviour : SingableObject
     [SerializeField] private PitchReceiver _pitchReceiver;
 
     [Header("Variables")]
-    public PitchLevel _pitchTarget;
+    public PitchLevel[] _pitchTarget;
     [SerializeField] private float _moveSpeed;
 
     private Transform _playerPos;
@@ -44,21 +44,21 @@ public class SleepingSpiritBehaviour : SingableObject
 
     void Start()
     {
-        if(_pitchTarget == PitchLevel.LowPitch)
-        {
-            //Red
-            _spriteRenderer.color = new Color32(192,0,0,255);
-        }
-        else if(_pitchTarget == PitchLevel.MediumPitch)
-        {
-            //Yellow
-            _spriteRenderer.color = new Color32(212,238,0,255);
-        }
-        else if(_pitchTarget == PitchLevel.HighPitch)
-        {
-            //Green
-            _spriteRenderer.color = new Color32(0,238,3,255);
-        }
+        // if(_pitchTarget == PitchLevel.LowPitch)
+        // {
+        //     //Red
+        //     _spriteRenderer.color = new Color32(192,0,0,255);
+        // }
+        // else if(_pitchTarget == PitchLevel.MediumPitch)
+        // {
+        //     //Yellow
+        //     _spriteRenderer.color = new Color32(212,238,0,255);
+        // }
+        // else if(_pitchTarget == PitchLevel.HighPitch)
+        // {
+        //     //Green
+        //     _spriteRenderer.color = new Color32(0,238,3,255);
+        // }
 
         _playerPos = PlayerManager.PlayerTrans;
     }

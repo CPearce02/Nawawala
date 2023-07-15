@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SizeChangingPlantBehaviour : SingableObject
 {
-    public PitchLevel _pitchTarget;
+    public PitchLevel[] _pitchTarget;
     [SerializeField] private bool AmIExpanded;
 
 
@@ -53,21 +53,21 @@ public class SizeChangingPlantBehaviour : SingableObject
             _anim.Play(ALRSHRINK);
         }
 
-        if(_pitchTarget == PitchLevel.LowPitch)
-        {
-            //Red
-            _spriteRenderer.color = new Color32(192,0,0,255);
-        }
-        else if(_pitchTarget == PitchLevel.MediumPitch)
-        {
-            //Yellow
-            _spriteRenderer.color = new Color32(212,238,0,255);
-        }
-        else if(_pitchTarget == PitchLevel.HighPitch)
-        {
-            //Green
-            _spriteRenderer.color = new Color32(0,238,3,255);
-        }
+        // if(_pitchTarget == PitchLevel.LowPitch)
+        // {
+        //     //Red
+        //     _spriteRenderer.color = new Color32(192,0,0,255);
+        // }
+        // else if(_pitchTarget == PitchLevel.MediumPitch)
+        // {
+        //     //Yellow
+        //     _spriteRenderer.color = new Color32(212,238,0,255);
+        // }
+        // else if(_pitchTarget == PitchLevel.HighPitch)
+        // {
+        //     //Green
+        //     _spriteRenderer.color = new Color32(0,238,3,255);
+        // }
     }
 
     private void ChangeSize()
