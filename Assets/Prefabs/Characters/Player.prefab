@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5751130214425220685}
   - component: {fileID: 452222944980572436}
   - component: {fileID: 905328971339543360}
-  - component: {fileID: 6713876317663152123}
   - component: {fileID: 5371726225904175342}
   - component: {fileID: 7675661109632848617}
   - component: {fileID: 7262416286122083870}
@@ -87,18 +86,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7262416286122083870}
   flipThreshold: 0.1
---- !u!114 &6713876317663152123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1682806117145108767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5751bd8dfaea5974e9712965783027d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5371726225904175342
 MonoBehaviour:
   m_ObjectHideFlags: 0
