@@ -39,6 +39,7 @@ Transform:
   - {fileID: 3701355940471408678}
   - {fileID: 4842139397950604523}
   - {fileID: 4756261822117972859}
+  - {fileID: 383927571737988898}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -63,9 +64,15 @@ MonoBehaviour:
   _upwardMovementMultiplier: 1.7
   _coyoteTimer: 0.3
   _jumpBufferTime: 0.2
-  _dashingPower: 10
-  _dashingTime: 0.2
-  _dashingCooldown: 0.3
+  _dashingPower: 8
+  _dashingTime: 0.1
+  _dashingCooldown: 0.5
+  groundCheckTransform: {fileID: 383927571737988898}
+  ignoreLayers:
+    serializedVersion: 2
+    m_Bits: 12
+  groundCheckSize: {x: 0.43, y: 0.1}
+  _anim: {fileID: 178906758674679639}
 --- !u!114 &905328971339543360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008a6b88f22495f428b4aae87eba0235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 0}
   _followObject: {fileID: 0}
+  collectedSouls: []
 --- !u!61 &7675661109632848617
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -361,6 +370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3701355940471408678}
   - component: {fileID: 2428179591824135424}
+  - component: {fileID: 178906758674679639}
   m_Layer: 3
   m_Name: FX
   m_TagString: Untagged
@@ -435,6 +445,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &178906758674679639
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4625768882523323041}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fc152e1973b9e094a980974c9a884333, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &4722055616652903460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 383927571737988898}
+  m_Layer: 3
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &383927571737988898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4722055616652903460}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5, y: -2.24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5751130214425220685}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4847581599554599693
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,4 +581,7 @@ MonoBehaviour:
   CurrentPitchLevel: 0
   _singingLevel: 0
   _singingStrength: 54
-  _singingDetection: {fileID: 3826975948187914069}
+  _singDistance: 0
+  _singingLayerMask:
+    serializedVersion: 2
+    m_Bits: 0

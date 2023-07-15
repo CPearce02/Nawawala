@@ -41,6 +41,12 @@ public class PlayerMovement : MonoBehaviour
     private Ground _ground;
     private PlayerInput _inputActions;
 
+    public Transform groundCheckTransform;
+    public LayerMask ignoreLayers;
+    public Vector2 groundCheckSize;
+
+    bool _grounded = false;
+    public bool Grounded { get => _grounded; private set => _grounded = value; }
 
     [SerializeField] private Animator _anim;
 
@@ -49,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _ground = GetComponent<Ground>();
+        // _ground = GetComponent<Ground>();
         _inputActions = GetComponent<PlayerInput>();
         _defaultGravityScale = 1f;
 
@@ -72,15 +78,16 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         _anim.SetFloat("Speed", _rb.velocity.x);
-        _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(_maxSpeed - _ground.GetFriction(), 0f);
+        _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(_maxSpeed - 1f, 0f);
     }
 
     private void FixedUpdate()
     {
-        _onGround = _ground.GetOnGround();
+        // _onGround = _ground.GetOnGround();
+
         _velocity = _rb.velocity;
 
-        if (_onGround && _rb.velocity.y == 0)
+        if (_grounded && _rb.velocity.y == 0)
         {
             _jumpPhase = 0;
             _coyoteCounter = _coyoteTimer;
@@ -119,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
             _rb.gravityScale = _defaultGravityScale;
         }
 
-        _accerleration = _onGround ? _maxAcceleration : _maxAirAcceleration;
+        _accerleration = _grounded ? _maxAcceleration : _maxAirAcceleration;
         _maxSpeedChange = _accerleration * Time.deltaTime;
         _velocity.x = Mathf.MoveTowards(_velocity.x, _desiredVelocity.x, _maxSpeed);
 
@@ -139,12 +146,15 @@ public class PlayerMovement : MonoBehaviour
             _jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * _jumpHeight * _upwardMovementMultiplier);
             _isJumping = true;
 
-            if (_velocity.y > 0f)
-            {
+            _velocity.y = 0f;
+            // if (_velocity.y > 0f)
+            // {
                 _jumpSpeed = Mathf.Max(_jumpSpeed - _velocity.y, 0f);
-            }
+            // }
 
             _velocity.y += _jumpSpeed;
+
+            // _rb.AddForce(transform.up * _jumpSpeed, ForceMode2D.Impulse);
         }
     }
 
@@ -209,6 +219,22 @@ public class PlayerMovement : MonoBehaviour
     private void SetAirJump(int amount) 
     {
         _maxAirJumps = amount;
+    }
+
+    void CheckGround() => Grounded = Physics2D.BoxCast(groundCheckTransform.position, groundCheckSize, 0f, Vector2.down, 0.1f, ~ignoreLayers);
+
+    // private void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     CheckGround();        
+    // }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        CheckGround();
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        Grounded = false;
     }
 
 }
