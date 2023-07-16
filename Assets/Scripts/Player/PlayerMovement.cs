@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _anim.SetFloat("Speed", _rb.velocity.x);
+        _anim.SetFloat("Speed", Mathf.Abs(_rb.velocity.x));
         _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(_maxSpeed - 1f, 0f);
     }
 
