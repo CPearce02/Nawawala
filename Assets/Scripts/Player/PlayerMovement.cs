@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0, 5)] private int _maxAirJumps = 1;
     [SerializeField, Range(0f, 5f)] private float _downwardMovementMultiplier = 3f;
     [SerializeField, Range(0f, 5f)] private float _upwardMovementMultiplier = 1.7f;
-    [SerializeField, Range(0f, 0.3f)] private float _coyoteTimer = 0.2f;
+    private float _coyoteTimer = 0.5f;
     [SerializeField, Range(0f, 0.3f)] private float _jumpBufferTime = 0.2f;
 
     private int _jumpPhase;
@@ -143,18 +143,20 @@ public class PlayerMovement : MonoBehaviour
             }
             _jumpBufferCounter = 0;
             _coyoteCounter = 0;
-            _jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * _jumpHeight * _upwardMovementMultiplier);
             _isJumping = true;
 
             _velocity.y = 0f;
-            // if (_velocity.y > 0f)
-            // {
-                _jumpSpeed = Mathf.Max(_jumpSpeed - _velocity.y, 0f);
-            // }
+
+            _jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * _jumpHeight * _upwardMovementMultiplier);
+
+            if (_velocity.y > 0f)
+            {
+            _jumpSpeed = Mathf.Max(_jumpSpeed - _velocity.y, 0f);
+            }
 
             _velocity.y += _jumpSpeed;
 
-            // _rb.AddForce(transform.up * _jumpSpeed, ForceMode2D.Impulse);
+            // _rb.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
         }
     }
 

@@ -6,7 +6,7 @@ public class TotemController : SingableObject
 {
     private enum UnlockAbility
     {
-        Jump, Dash
+        Jump, Dash, Reveal
     }
 
     [SerializeField] private UnlockAbility _abilityToUnlock;
@@ -32,6 +32,9 @@ public class TotemController : SingableObject
             case UnlockAbility.Dash:
                 _targetAbility = DASH;
                 break;
+            case UnlockAbility.Reveal:
+                _targetAbility = null;
+            break;
         }
 
     }
@@ -49,7 +52,14 @@ public class TotemController : SingableObject
     {
         if(!_activated)
         {
-            GameEvents.onAbilityLock(_targetAbility, false);
+            if(_targetAbility != null)
+            {
+                GameEvents.onAbilityLock(_targetAbility, false);
+            }
+            else
+            {
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
             _sr.color = Color.green;
             _activated = true;
         }
