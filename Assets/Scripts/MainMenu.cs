@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -32,8 +32,8 @@ public class MainMenu : MonoBehaviour
     
     private void NewGameFunction()
     {
-
-        GameManager.Instance.LoadThisScene(_gameSceneID);
+        SceneManager.LoadScene(_gameSceneID);
+        // GameManager.Instance.LoadThisScene(_gameSceneID);
     }
 
     private void ChaptersFunction()
