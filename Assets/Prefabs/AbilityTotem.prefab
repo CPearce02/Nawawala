@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _abilityToUnlock: 0
-  _pitchTarget: 0
+  _pitchTarget: 000000000100000002000000
   _pitchReceiver: {fileID: 2464361803579257439}
 --- !u!1001 &6702540215526793868
 PrefabInstance:

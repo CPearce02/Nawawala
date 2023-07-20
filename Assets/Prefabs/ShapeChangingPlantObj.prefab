@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20417b222d4e824eb42ff3edad5b1b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pitchTarget: 0000000001000000
+  _pitchTarget: 00000000
   AmIExpanded: 1
   _boxCol2D: {fileID: 4653369339091575705}
   _spriteRenderer: {fileID: 7910876208186674643}

@@ -8,9 +8,10 @@ public class WindTunnelBehaviour : SingableObject
     {
         Left, Right, Up, Down
     }
-    [SerializeField] private bool _isMyPlantSingable = true;
+    [SerializeField] private Collider2D _col2D;
 
     [Header("Initialisation")]
+    [SerializeField] private bool _isMyPlantSingable = true;
     [SerializeField] private WindDirection _windDirection;
     [SerializeField] private PitchLevel[] _pitchTarget;
     [SerializeField] private PitchReceiver _pitchReceiver;
@@ -73,6 +74,7 @@ public class WindTunnelBehaviour : SingableObject
     private void StartWind()
     {
         _isActive = true;
+        _col2D.enabled = true;
         StartCoroutine(TurnOffWindTunnel());
     }
 
@@ -83,7 +85,8 @@ public class WindTunnelBehaviour : SingableObject
             isPushing = true;
             playerMovement.enabled = false;
             _playerRb = playerMovement.GetComponent<Rigidbody2D>();
-            PushingPlayerCo = StartCoroutine(PushPlayer());
+            PushPlayer();
+            // PushingPlayerCo =
         }
     }
 
@@ -101,13 +104,9 @@ public class WindTunnelBehaviour : SingableObject
     }
 
 
-    IEnumerator PushPlayer()
+    private void PushPlayer()
     {
-        while (true)
-        {
-            _playerRb.AddForce(_pushDir, ForceMode2D.Impulse);
-            yield return null;
-        }
+        _playerRb.AddForce(_pushDir*_pushSpeed, ForceMode2D.Impulse);
     }
 
 
@@ -115,6 +114,7 @@ public class WindTunnelBehaviour : SingableObject
     {
         yield return new WaitForSeconds(_windDuration);
         _isActive = false;
+        _col2D.enabled = false;
     }
 
     // private void FixedUpdate()
