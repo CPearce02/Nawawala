@@ -185,7 +185,7 @@ MonoBehaviour:
     m_Bits: 8
   _sleepingSpirit: {fileID: 6155806893869118532}
   _pitchTarget: 00000000
-  _moveSpeed: 5
+  _moveSpeed: 10
 --- !u!1 &3469207374244441153
 GameObject:
   m_ObjectHideFlags: 0

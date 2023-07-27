@@ -9,6 +9,12 @@ public enum PitchLevel
 
 public class PlayerSing : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private PlayerPitchSymbolHandler _playerPitchSymbolHandler;
+    [SerializeField] private GameObject _singingCircle;
+
+
+    [Header("Variables")]
     public bool IsSinging;
     public float SingingLevel{get{return _singingLevel;}}
     public PitchLevel CurrentPitchLevel;
@@ -23,12 +29,18 @@ public class PlayerSing : MonoBehaviour
     [SerializeField] private float _singDistance;
     [SerializeField] private LayerMask _singingLayerMask;
     
+    private void Start() 
+    {
+        _singingCircle.SetActive(false);
+    }
+
     void Update()
     {
         if(Input.GetMouseButtonDown(1))
         {
             IsSinging = true;
             _isSinging = true;
+            _singingCircle.SetActive(true);
             UiManager.Instance.SingingBarState(true, this);
         }
 
@@ -54,9 +66,9 @@ public class PlayerSing : MonoBehaviour
             }
             else if(SingingLevel < 100)
             {
-                CurrentPitchLevel = PitchLevel.HighPitch;
-                
+                CurrentPitchLevel = PitchLevel.HighPitch;   
             }
+            _playerPitchSymbolHandler.UpdatePlayerPitchSymbol(CurrentPitchLevel);
         }
 
         if(Input.GetMouseButtonUp(1) || _reachedMaxPitch)
@@ -75,6 +87,7 @@ public class PlayerSing : MonoBehaviour
                 }
             }
 
+            _singingCircle.SetActive(false);
             TurnOffSinging();
         }
     }
@@ -83,6 +96,7 @@ public class PlayerSing : MonoBehaviour
     private void TurnOffSinging()
     {
         UiManager.Instance.SingingBarState(false, this);
+        _playerPitchSymbolHandler.StopShowingSymbol();
         _singingLevel = 0;
     }
 
