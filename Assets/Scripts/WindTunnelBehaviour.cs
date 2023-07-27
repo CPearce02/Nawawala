@@ -18,6 +18,7 @@ public class WindTunnelBehaviour : SingableObject
 
 
     [Header("Other")]
+    [SerializeField] private GameObject _windSprite;
     [SerializeField] private float _pushSpeed;  
     [SerializeField] private float _windDuration;    
     private bool isPushing;
@@ -52,6 +53,10 @@ public class WindTunnelBehaviour : SingableObject
                 _pushDir = new Vector2(0, -1);
                 break;
         }
+
+        _isActive = false;
+        _col2D.enabled = false;
+        _windSprite.SetActive(false);
     }
 
     public override void SetUpPitchReciever()
@@ -75,6 +80,7 @@ public class WindTunnelBehaviour : SingableObject
     {
         _isActive = true;
         _col2D.enabled = true;
+        _windSprite.SetActive(true);
         StartCoroutine(TurnOffWindTunnel());
     }
 
@@ -83,10 +89,10 @@ public class WindTunnelBehaviour : SingableObject
         if (other.TryGetComponent<PlayerMovement>(out PlayerMovement playerMovement) && !isPushing)
         {
             isPushing = true;
-            playerMovement.enabled = false;
+            //playerMovement.enabled = false;
             _playerRb = playerMovement.GetComponent<Rigidbody2D>();
-            PushPlayer();
-            // PushingPlayerCo =
+            
+            PushingPlayerCo = StartCoroutine(PushPlayer());
         }
     }
 
@@ -99,44 +105,29 @@ public class WindTunnelBehaviour : SingableObject
             {
                 StopCoroutine(PushingPlayerCo);
             }
-            playerMovement.enabled = true;
+            //playerMovement.enabled = true;
         }
     }
 
-
-    private void PushPlayer()
+    private IEnumerator PushPlayer()
     {
-        _playerRb.AddForce(_pushDir*_pushSpeed, ForceMode2D.Impulse);
-    }
+        while (isPushing)
+        { 
+            _playerRb.AddForce(_pushDir*_pushSpeed, ForceMode2D.Force);
+            if(_playerRb.velocity.y > 20)
+            {
+                _playerRb.velocity = new Vector2(_playerRb.velocity.x, 20);
+            }
+            yield return null;
+        }
 
+    }
 
     IEnumerator TurnOffWindTunnel()
     {
         yield return new WaitForSeconds(_windDuration);
         _isActive = false;
         _col2D.enabled = false;
+        _windSprite.SetActive(false);
     }
-
-    // private void FixedUpdate()
-    // {
-    //     if (isPulling)
-    //     {
-    //         Transform currentEndPos = positions[currentIndex];
-
-    //         Vector2 direction = (currentEndPos.position - transform.position).normalized;
-
-    //         Rigidbody2D playerRigidbody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
-    //         playerRigidbody.velocity = direction * _pullSpeed;
-
-    //         float distance = Vector2.Distance(transform.position, currentEndPos.position);
-    //         if (distance < 0.1f)
-    //         {
-    //             currentIndex++;
-    //             if (currentIndex >= positions.Length)
-    //             {
-    //                 currentIndex = 0;  
-    //             }
-    //         }
-    //     }
-    // }
 }

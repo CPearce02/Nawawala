@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6155806893869118532}
   - component: {fileID: 8973034985917936426}
-  - component: {fileID: 266752945914755959}
   - component: {fileID: 5908127692947978210}
   m_Layer: 0
   m_Name: SleepingSpirit
@@ -88,23 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &266752945914755959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1282202490080249277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74dcaa3ad1ab13b44b9ce6f21d57b513, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _col2D: {fileID: 5908127692947978210}
-  _spriteRenderer: {fileID: 8973034985917936426}
-  _pitchReceiver: {fileID: 8222174313816978564}
-  _pitchTarget: 0000000002000000
-  _moveSpeed: 5
 --- !u!61 &5908127692947978210
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -159,6 +141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1567828365305156899}
+  - component: {fileID: 5159234390666326481}
   m_Layer: 0
   m_Name: SleepingSpiritObj
   m_TagString: Untagged
@@ -180,8 +163,29 @@ Transform:
   m_Children:
   - {fileID: 6155806893869118532}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5159234390666326481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3058909707116236660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74dcaa3ad1ab13b44b9ce6f21d57b513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _col2D: {fileID: 5908127692947978210}
+  _spriteRenderer: {fileID: 8973034985917936426}
+  _pitchReceiver: {fileID: 8222174313816978564}
+  _canGoSleepLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _sleepingSpirit: {fileID: 6155806893869118532}
+  _pitchTarget: 00000000
+  _moveSpeed: 5
 --- !u!1 &3469207374244441153
 GameObject:
   m_ObjectHideFlags: 0

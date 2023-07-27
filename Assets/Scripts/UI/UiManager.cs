@@ -33,7 +33,7 @@ public class UiManager : MonoBehaviour
         _singingBarObject.SetActive(false);
     }
 
-    public void SingingBarState(bool state, TempPlayerSing tempPlayerSing)
+    public void SingingBarState(bool state, PlayerSing tempPlayerSing)
     {
         if(state)
         {
@@ -48,7 +48,7 @@ public class UiManager : MonoBehaviour
         _singingBarObject.SetActive(state);
     }
 
-    IEnumerator PlayerIsSinging(TempPlayerSing tempPlayerSing)
+    IEnumerator PlayerIsSinging(PlayerSing tempPlayerSing)
     {
         while (_isPlayerSinging)
         {

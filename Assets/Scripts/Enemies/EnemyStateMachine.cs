@@ -24,7 +24,7 @@ namespace Enemies
 
         public Transform[] positions;
 
-        public TempPlayerSing player;
+        public PlayerSing player;
 
         private void Awake()
         {

@@ -7,7 +7,7 @@ public enum PitchLevel
     LowPitch, MediumPitch, HighPitch
 }
 
-public class TempPlayerSing : MonoBehaviour
+public class PlayerSing : MonoBehaviour
 {
     public bool IsSinging;
     public float SingingLevel{get{return _singingLevel;}}

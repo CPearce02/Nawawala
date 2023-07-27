@@ -24,6 +24,7 @@ public class LostSoulBehaviour : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] bool _isMoving;
     [SerializeField] bool _canPickUp;
+    [SerializeField] bool _stopInividualBehaviour;
 
     void Start()
     {
@@ -55,6 +56,11 @@ public class LostSoulBehaviour : MonoBehaviour
                 {
                     GameEvents.onSoulCollect.Invoke(_sm);
                 }
+                // if(other.TryGetComponent<PlayerSoulHandler>(out PlayerSoulHandler playerSoulHandler))
+                // {
+                //     playerSoulHandler.AddMeToSouls(this);
+                //     StopThisSoul();
+                // }
                 Debug.Log("Picked up this soul: " + gameObject.name);
             }
             else
@@ -95,6 +101,11 @@ public class LostSoulBehaviour : MonoBehaviour
     {
         _detectPlayerCol.enabled = true;
         _isMoving = false;
+    }
+
+    private void StopThisSoul()
+    {
+        _stopInividualBehaviour = true;
     }
 
 

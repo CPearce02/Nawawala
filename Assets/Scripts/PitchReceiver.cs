@@ -9,6 +9,7 @@ public class PitchReceiver : MonoBehaviour
     //[Tooltip("DONT ASSIGN IN EDITOR")]
     private PitchLevel[] _targetPitchLevel;
     [SerializeField] private PitchSymbolBehaviour _pitchSymbolBehaviour;
+    
     public void Init(Action givenFunction, PitchLevel[] pitchLevelWanted)
     {
         myFunction = givenFunction;
@@ -18,16 +19,6 @@ public class PitchReceiver : MonoBehaviour
         {
             _pitchSymbolBehaviour.Init(pitchLevelWanted);
         }
-        // try
-        // {
-            
-        // }
-        // catch (System.Exception)
-        // {
-        //     Debug.LogError("No Pitch Symbol: " + transform.parent.name);
-        //     throw;
-        // }
-        
     }
 
     public void PitchCall(PitchLevel callingPitch)
