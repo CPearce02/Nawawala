@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _anim.SetFloat("Speed", Mathf.Abs(_rb.velocity.x));
         _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(_maxSpeed - 1f, 0f);
-        SoundManager.Instance.PlayRepeatingSound(SoundManager.GameSoundType.PlayerStep, this, 0.5f);
+        //SoundManager.Instance.PlayRepeatingSound(SoundManager.GameSoundType.PlayerStep, this, 0.5f);
     }
 
     private void FixedUpdate()
