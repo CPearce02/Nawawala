@@ -74,13 +74,13 @@ public class SizeChangingPlantBehaviour : SingableObject
     {
         if(AmIExpanded)
         {
-            //SoundManager.Instance.PlaySound3D(SoundManager.GameSoundType.GrowingPlantSFX, transform.position);
+            SoundManager.Instance.PlaySound3D(SoundManager.GameSoundType.GrowingPlantSFX, transform.position);
             _boxCol2D.enabled = false;
             _anim.Play(SHRINK);
         }
         else if(!AmIExpanded)
         {
-            //SoundManager.Instance.PlaySound3D(SoundManager.GameSoundType.GrowingPlantSFX, transform.position);
+            SoundManager.Instance.PlaySound3D(SoundManager.GameSoundType.GrowingPlantSFX, transform.position);
             _boxCol2D.enabled = true;
             _anim.Play(EXPAND);
         }
