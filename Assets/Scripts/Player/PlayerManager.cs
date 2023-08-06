@@ -1,20 +1,31 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class PlayerManager : MonoBehaviour
 {
+    private static PlayerManager Instance;
     [SerializeField] private Transform _player;
     public static Transform PlayerTrans{get; private set;} 
 
     [SerializeField] private Transform _followObject;
     private float _currentOffSet = 0.75f;
     public List<SoulManager> collectedSouls = new List<SoulManager>();
+    public event EventHandler _addExtraPlayerJump;
 
     private void Awake() 
     {   
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
         if(_followObject == null)
         {
             _followObject = GameObject.Find("FollowObj").transform;
@@ -22,14 +33,19 @@ public class PlayerManager : MonoBehaviour
         
         if(_player == null)
         {
-            _player = FindObjectOfType<PlayerMovement>().transform;
+            _player = FindObjectOfType<PlayerController>().transform;
         }
         PlayerTrans = _player;
     }
 
     private void Start()
     {
-        
+        _player.GetComponent<PlayerController>().Init(this);
+    }
+
+    public void CallPlayerExtra()
+    {
+        _addExtraPlayerJump?.Invoke(this, null);
     }
 
     private void OnEnable()
@@ -60,7 +76,7 @@ public class PlayerManager : MonoBehaviour
         foreach (SoulManager sm in collectedSouls)
         {
             sm.isFollowing = false;
-            float randomAngle = Random.Range(0f, 180f);
+            float randomAngle = UnityEngine.Random.Range(0f, 180f);
             Vector2 awayDirection = Quaternion.Euler(0f, 0f, randomAngle) * Vector2.up;
             Rigidbody2D rb = sm.GetComponent<Rigidbody2D>();
             rb.AddForce(awayDirection * 15f, ForceMode2D.Impulse);

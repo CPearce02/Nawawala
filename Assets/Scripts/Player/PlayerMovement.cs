@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         // _ground = GetComponent<Ground>();
-        _inputActions = GetComponent<PlayerInput>();
+        //_inputActions = GetComponent<PlayerInput>();
         _defaultGravityScale = 1f;
 
         //Base
@@ -80,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
         _anim.SetFloat("Speed", Mathf.Abs(_rb.velocity.x));
         _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(_maxSpeed - 1f, 0f);
         SoundManager.Instance.PlayRepeatingSound(SoundManager.GameSoundType.PlayerStep, this, 0.5f);
+        
     }
 
     private void FixedUpdate()
@@ -164,6 +165,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnJump(InputValue inputValue)
     {
         _desiredJump |= inputValue.isPressed;
+        //Debug.Log(_desiredJump);
     }
 
     private IEnumerator DashMovement()
@@ -190,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnMove(InputValue inputValue)
     {
-        Debug.Log("ON mOve");
+        //Debug.Log("ON mOve");
         _direction.x = inputValue.Get<Vector2>().x;
     }
 

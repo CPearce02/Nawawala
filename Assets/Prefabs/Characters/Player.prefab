@@ -382,7 +382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5751130214425220685}
-  - component: {fileID: 452222944980572436}
+  - component: {fileID: 528184392446904086}
   - component: {fileID: 905328971339543360}
   - component: {fileID: 1011190314287473701}
   - component: {fileID: 5371726225904175342}
@@ -417,7 +417,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &452222944980572436
+--- !u!114 &528184392446904086
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -426,26 +426,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 1682806117145108767}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cd83594e48724f4b907f598c3d69b99, type: 3}
+  m_Script: {fileID: 11500000, guid: 678bd1d87bbcd444abc9272368f2fcbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 15
-  _maxAcceleration: 50
-  _maxAirAcceleration: 45
-  _jumpHeight: 8
-  _maxAirJumps: 1
-  _downwardMovementMultiplier: 3
-  _upwardMovementMultiplier: 1.7
-  _jumpBufferTime: 0.2
-  _dashingPower: 8
-  _dashingTime: 0.1
-  _dashingCooldown: 0.5
-  groundCheckTransform: {fileID: 383927571737988898}
-  ignoreLayers:
+  _playerAnim: {fileID: 2510180095196548127}
+  rb: {fileID: 7262416286122083870}
+  _spriteRenderer: {fileID: 9218768804976015962}
+  _col2D: {fileID: 7675661109632848617}
+  _movementSpeed: 25.1
+  _extraMoveSpeed: 1
+  _acceleration: 9
+  _deceleration: 12
+  _velPower: 0.9
+  _frictionAmount: 0.2
+  _jumpForce: 25
+  _maxNumberOfExtraJumps: 0
+  _jumpCutModifier: 0.3
+  _jumpBufferTotalTime: 0.15
+  _coyoteTotalTime: 0.15
+  _platformLayer:
     serializedVersion: 2
-    m_Bits: 12
-  groundCheckSize: {x: 0.43, y: 0.3}
-  _anim: {fileID: 2510180095196548127}
+    m_Bits: 512
+  _grounded: 0
+  _gravityScale: 3
+  _fallGravityModifier: 2
+  _dashingVelocity: 70
+  _dashingTime: 0.2
+  _isDashing: 0
+  _canDash: 1
+  _dashCoolDown: 3
 --- !u!114 &905328971339543360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,7 +575,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 1
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &2729043221248990237

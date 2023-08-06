@@ -19,7 +19,8 @@ public class TotemController : SingableObject
 
     [Header("References")] 
     [SerializeField] private PitchReceiver _pitchReceiver;
-    private SpriteRenderer _sr;
+    [SerializeField]private SpriteRenderer _sr;
+    private PlayerManager _playerManager;
 
     private void Awake() 
     {
@@ -36,7 +37,11 @@ public class TotemController : SingableObject
                 _targetAbility = null;
             break;
         }
+    }   
 
+    private void Start()
+    {
+        _playerManager = FindObjectOfType<PlayerManager>();
     }
 
     public override void SetUpPitchReciever()
@@ -54,7 +59,7 @@ public class TotemController : SingableObject
         {
             if(_targetAbility != null)
             {
-                GameEvents.onAbilityLock(_targetAbility, false);
+                _playerManager.CallPlayerExtra();
             }
             else
             {
@@ -65,13 +70,13 @@ public class TotemController : SingableObject
         }
     }
 
-    void Start()
-    {
-        if(_sr == null)
-        {
-            _sr = GetComponent<SpriteRenderer>();
-        }
-    }
+    // void Start()
+    // {
+    //     if(_sr == null)
+    //     {
+    //         _sr = GetComponent<SpriteRenderer>();
+    //     }
+    // }
 
 
     // private void OnTriggerStay2D(Collider2D collision)
