@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2668997793578654757}
   - component: {fileID: 4653369339091575705}
   - component: {fileID: 3389879913027430181}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShapeChangingPlant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5615478650674916793}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShapeChangingPlantObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ Transform:
   - {fileID: 5809012907349661754}
   - {fileID: 2607140475803526578}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5584130835527846399
 GameObject:
