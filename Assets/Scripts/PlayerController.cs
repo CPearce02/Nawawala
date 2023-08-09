@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     [Header("Gravity")]
     [SerializeField]private float _gravityScale;
     [SerializeField]private float _fallGravityModifier;
+    [SerializeField]private float _clampFallSpeed;
 
 
     [Header("Dash Variables")]
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviour
     {
         CheckingGround();
 
-        //Allow player to press a bit before actually landing on the ground
+        //Allow player to press a bit before and still jump when actually landing on the ground
         if(_isJumpBuffer)
         {
             if(_jumpBufferTimer < 0)
@@ -115,7 +116,18 @@ public class PlayerController : MonoBehaviour
         {
             rb.gravityScale = 0;
         }
-        
+
+        //Unsure
+        // if(rb.velocity.y > 40)
+        // {
+        //     rb.velocity = new Vector2(rb.velocity.x, 40);
+        // }
+
+        //Control Fall Speed
+        if(rb.velocity.y < -_clampFallSpeed)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -_clampFallSpeed);
+        }
         //Change Direction of Sprite
         // if(moveInput != 0)
         // {
@@ -144,7 +156,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnMove(InputValue inputValue)
     {
-        Debug.Log("Move Input");
         _moveInput = inputValue.Get<Vector2>().x * _movementSpeed;
     }
     

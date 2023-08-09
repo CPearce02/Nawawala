@@ -20,7 +20,7 @@ public class WindTunnelBehaviour : SingableObject
 
     [Header("Other")]
     [SerializeField] private GameObject _windSprite;
-    [SerializeField] private float _pushSpeed;  
+    //[SerializeField] private float _pushSpeed;  
     [SerializeField] private float _pushSpeedLimit;
     [SerializeField] private float _windDuration;    
     private bool isPushing;
@@ -97,6 +97,7 @@ public class WindTunnelBehaviour : SingableObject
         if (other.TryGetComponent<PlayerController>(out PlayerController playerMovement) && !isPushing)
         {
             isPushing = true;
+            _justEntered = true;
             //playerMovement.enabled = false;
             _playerRb = playerMovement.GetComponent<Rigidbody2D>();
             
@@ -116,32 +117,81 @@ public class WindTunnelBehaviour : SingableObject
         }
     }
 
+    private bool _justEntered;
+
     private IEnumerator PushPlayer()
     {
+        //float justEnteredTimer = 0.2f;
+        _playerRb.velocity = new Vector2(0,0);
+
+        // while (isPushing && _justEntered)
+        // {
+        //     if(justEnteredTimer < 0)
+        //     {
+        //         _justEntered = false;
+        //     }
+        //     else
+        //     {
+        //         justEnteredTimer -= Time.deltaTime;
+        //     }
+
+        //     // if(_xPushLimit != 0)
+        //     // {
+        //     //     _playerRb.transform.position = new Vector3(_playerRb.transform.position.x, transform.position.y, 0);
+        //     // }
+        //     // else
+        //     // {
+        //     //     _playerRb.transform.position = new Vector3(transform.position.x, _playerRb.transform.position.y, 0);
+        //     // }
+        //     yield return null;
+        // }
         while (isPushing)
         { 
-            _playerRb.AddForce(_pushDir*_pushSpeed, ForceMode2D.Force);
-            if(_xPushLimit != 0)
+            // if(_justEntered)
+            // {
+            //     if(justEnteredTimer < 0)
+            //     {
+            //         _justEntered = false;
+            //     }
+            //     else
+            //     {
+            //         justEnteredTimer -= Time.deltaTime;
+            //     }
+            //     _playerRb.AddForce(_pushDir*_pushSpeed/2);
+            // }
+            // else
             {
-                if(_xPushLimit > 0)
-                {
-                    _playerRb.velocity = new Vector2(_xPushLimit, _playerRb.velocity.y);
-                }
-                else if(_xPushLimit < 0)
-                {
-                    _playerRb.velocity = new Vector2(_xPushLimit, _playerRb.velocity.y);
-                }
+                //_playerRb.AddForce(_pushDir*_pushSpeed);
             }
-            else if(_yPushLimit != 0)
+
+            if(_windDirection == WindDirection.Up)
             {
-                if(_yPushLimit > 0)
+                if(_playerRb.velocity.y > _yPushLimit)
                 {
                     _playerRb.velocity = new Vector2(_playerRb.velocity.x, _yPushLimit);
                 }
-                else if(_yPushLimit < 0)
+                _playerRb.velocity = new Vector2(_playerRb.velocity.x, _yPushLimit);
+            }
+            else if(_windDirection == WindDirection.Right)
+            {
+                if(_playerRb.velocity.x > _xPushLimit)
                 {
-                    _playerRb.velocity = new Vector2(_playerRb.velocity.x, _yPushLimit);
                 }
+                    _playerRb.velocity = new Vector2(_xPushLimit, 0);
+            }
+            else if(_windDirection == WindDirection.Left)
+            {
+                if(_playerRb.velocity.x < _xPushLimit)
+                {
+                }
+                    _playerRb.velocity = new Vector2(_xPushLimit, 0);
+            }
+            else if(_windDirection == WindDirection.Down)
+            {
+                if(_playerRb.velocity.y < _yPushLimit)
+                {
+                }
+                    _playerRb.velocity = new Vector2(_playerRb.velocity.x, _yPushLimit);
             }
             else
             {
@@ -150,7 +200,6 @@ public class WindTunnelBehaviour : SingableObject
             
             yield return null;
         }
-
     }
 
     IEnumerator TurnOffWindTunnel()
@@ -173,18 +222,22 @@ public class WindTunnelBehaviour : SingableObject
             if(GUILayout.Button("Facing Up", GUILayout.Height(20)))
             {
                 FaceUp(windTunnelBehaviour.transform);
+                windTunnelBehaviour._windDirection = WindDirection.Up;
             }
             if(GUILayout.Button("Facing Down", GUILayout.Height(20)))
             {
                 FaceDown(windTunnelBehaviour.transform);
+                windTunnelBehaviour._windDirection = WindDirection.Down;
             }
             if(GUILayout.Button("Facing Left", GUILayout.Height(20)))
             {
                 FaceLeft(windTunnelBehaviour.transform);
+                windTunnelBehaviour._windDirection = WindDirection.Left;
             }
             if(GUILayout.Button("Facing Right", GUILayout.Height(20)))
             {
                 FaceRight(windTunnelBehaviour.transform);
+                windTunnelBehaviour._windDirection = WindDirection.Right;
             }
         }
 
