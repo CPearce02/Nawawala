@@ -64,7 +64,7 @@ public class PlayerSing : MonoBehaviour
             {
                 CurrentPitchLevel = PitchLevel.MediumPitch;
             }
-            else if(SingingLevel < 100)
+            else if(SingingLevel <= 100)
             {
                 CurrentPitchLevel = PitchLevel.HighPitch;   
             }
@@ -73,8 +73,9 @@ public class PlayerSing : MonoBehaviour
 
         if(Input.GetMouseButtonUp(1) || _reachedMaxPitch)
         {
+            if(!_reachedMaxPitch && !_isSinging) return;
+            
             _reachedMaxPitch = false;
-
             _isSinging = false;
 
             RaycastHit2D[] raycasthits = Physics2D.CircleCastAll(transform.position, _singDistance, Vector2.zero, 0f, _singingLayerMask);

@@ -59,7 +59,15 @@ public class TotemController : SingableObject
         {
             if(_targetAbility != null)
             {
-                _playerManager.CallPlayerExtra();
+                if(_targetAbility == JUMP)
+                {
+                    _playerManager.CallPlayerExtra();
+
+                }
+                else if(_targetAbility == DASH)
+                {
+                    PlayerManager.PlayerTrans.GetComponent<PlayerController>()._dashUnlocked = true;
+                }
             }
             else
             {

@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [Header("Components")]
     [SerializeField]private Animator _playerAnim;
     [SerializeField]private Rigidbody2D rb;
-    [SerializeField]private SpriteRenderer _spriteRenderer;
+    [SerializeField]private Transform _spriteRenderer;
     [SerializeField]private Collider2D _col2D;
     private PlayerInput _inputActions;
 
@@ -54,14 +54,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private float _dashingVelocity = 5f;
     [SerializeField]private float _dashingTime = 0.5f; 
     [SerializeField]private bool _canDash = true;
+    [SerializeField]private float _dashTotalCoolDownTime;
+    [Tooltip("No Need to touch")]
+    [SerializeField]private float _dashCoolDownTimer;
+    private bool _canRestoreDash;
+    private bool _dashIsOnCoolDown;
     private bool _isDashing;
+    private bool _hasTouchedGroundWhileOnCooldDown;
     private Vector2 _dashingDir;
-    //[SerializeField]private float _dashCoolDown;
+    public bool _dashUnlocked{get; set;}
 
     private void Start() 
     {
         _inputActions = GetComponent<PlayerInput>();
-
     }
 
     public void Init(PlayerManager playerManager)
@@ -72,7 +77,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable() 
     {
         transform.rotation = Quaternion.Euler(0,0,0);
-        _canDash = false;
+        //_canDash = false;
     }
 
     private void AddExtraJump(object sender, EventArgs e)
@@ -117,6 +122,28 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 0;
         }
 
+        //Dash CoolDown
+        if(_dashIsOnCoolDown)
+        {
+            if(_dashCoolDownTimer < 0)
+            {
+                if(_hasTouchedGroundWhileOnCooldDown)
+                {
+                    _canDash = true;
+                    _hasTouchedGroundWhileOnCooldDown = false;
+                }
+                else
+                {
+                    _canRestoreDash = true;
+                }
+                _dashIsOnCoolDown = false;
+            }   
+            else
+            {
+                _dashCoolDownTimer -= Time.deltaTime;
+            }
+        }
+
         //Unsure
         // if(rb.velocity.y > 40)
         // {
@@ -128,23 +155,21 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, -_clampFallSpeed);
         }
+
         //Change Direction of Sprite
-        // if(moveInput != 0)
-        // {
-        //     if(moveInput < 0)
-        //     {
-        //         _spriteRenderer.flipX = true;
-        //         //transform.rotation = Quaternion.Euler(0,180f,0);
-        //     }
-        //     else
-        //     {
-        //         if(moveInput > 0)
-        //         {
-        //             _spriteRenderer.flipX = false;
-        //             //transform.rotation = Quaternion.Euler(0,0,0);
-        //         }
-        //     }
-        // }
+        if(rb.velocity.x != 0)
+        {
+            if(rb.velocity.x < -0.05)
+            {
+                //_spriteRenderer.flipX = true;
+                _spriteRenderer.rotation = Quaternion.Euler(0,180f,0);
+            }
+            else if(rb.velocity.x > 0.05)
+            {
+                //_spriteRenderer.flipX = false;
+                _spriteRenderer.rotation = Quaternion.Euler(0,0,0);
+            }
+        }
     }
 
     void FixedUpdate()
@@ -208,9 +233,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnDash(InputValue inputValue)
     {
-        if (_canDash)
+        if(_dashUnlocked)
         {
-            Dash();
+            if (_canDash)
+            {
+                Dash();
+            }
         }
     }
 
@@ -230,9 +258,8 @@ public class PlayerController : MonoBehaviour
         }
 
         _canDash = false;
-        //_extraMoveSpeed = 1.7f;
         _isDashing = true;
-        //_dashCoolDown = 0.15f;
+
 
         StartCoroutine(StopDashing());
     }
@@ -240,6 +267,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator StopDashing()
     {
         yield return new WaitForSeconds(_dashingTime);
+        _dashCoolDownTimer = _dashTotalCoolDownTime;
+        _dashIsOnCoolDown = true;
         _isDashing = false;
     }
     
@@ -276,12 +305,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    float _extraHeight = 0.05f;
     private void CheckingGround()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(_col2D.bounds.center, _col2D.bounds.size, 0f, Vector2.down, 1, _platformLayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(_col2D.bounds.center, _col2D.bounds.size, 0f, Vector2.down, _extraHeight, _platformLayer);
         if(raycastHit.collider != null)
         {
-            _canDash = true;
+            if(_dashIsOnCoolDown)
+            {
+                _hasTouchedGroundWhileOnCooldDown = true;
+            }
+            else if(_canRestoreDash)
+            {
+                _canRestoreDash = false;
+                _canDash = true;
+            }
+
             Grounded = true;
             _justOffTheGround = true;
         }
@@ -299,6 +338,24 @@ public class PlayerController : MonoBehaviour
             }
             _coyoteTimer -= Time.deltaTime;
         }
+
+        
+
+        #if UNITY_EDITOR
+        Color rayColor;
+        if(raycastHit.collider != null)
+        {
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
+        }
+
+        Debug.DrawRay(_col2D.bounds.center + new Vector3(_col2D.bounds.extents.x, 0), Vector2.down * (_col2D.bounds.extents.y + _extraHeight), rayColor);
+        Debug.DrawRay(_col2D.bounds.center - new Vector3(_col2D.bounds.extents.x, 0), Vector2.down * (_col2D.bounds.extents.y + _extraHeight), rayColor);
+        Debug.DrawRay(_col2D.bounds.center - new Vector3(_col2D.bounds.extents.x, _col2D.bounds.extents.y + _extraHeight), Vector2.right * (_col2D.bounds.extents.x), rayColor);
+        #endif
     }
 
     private void Friction()
