@@ -96,21 +96,4 @@ public class convertImg : MonoBehaviour
         colorCodes = new Color[0];
     }
 
-    [CustomEditor(typeof(convertImg))]
-    public class convertImgEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
-
-            convertImg myScript = (convertImg)target;
-            if(GUILayout.Button("Delete data")){
-                myScript.deleteData();
-            }
-            if(GUILayout.Button("Get Img Data"))
-            {
-                myScript.getImageData();
-            }
-        }
-    }
 }

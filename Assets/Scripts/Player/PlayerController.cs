@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -174,20 +173,22 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(_moveInput != 0)
-        {
-            if(_currentAnimPlaying != RUN)
-            {
-                _playerAnim.Play(RUN);
-            }
-        }
-        else
-        {
-            if(_currentAnimPlaying != IDLE)
-            {
-                _playerAnim.Play(IDLE);
-            }
-        }
+        //if(_moveInput != 0)
+        //{
+        //    if(_currentAnimPlaying != RUN)
+        //    {
+        //        _playerAnim.Play(RUN);
+        //    }
+        //}
+        //else
+        //{
+        //    if(_currentAnimPlaying != IDLE)
+        //    {
+        //        _playerAnim.Play(IDLE);
+        //    }
+        //}
+
+        _playerAnim.SetFloat("Speed", MathF.Abs(rb.velocity.x));
     }
 
     void FixedUpdate()
