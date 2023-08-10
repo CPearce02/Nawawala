@@ -17,8 +17,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private int _mainMenuID;
     [SerializeField] private int _gameSceneID;
 
-    [Header("Animations")]
-    [SerializeField] private Animator _mainMenuAnim;
+    //[Header("Animations")]
+    //[SerializeField] private Animator _mainMenuAnim;
     //[SerializeField] private AnimationClip _OutOfScreenAnimClip;
 
     
@@ -32,7 +32,9 @@ public class MainMenu : MonoBehaviour
     
     private void NewGameFunction()
     {
-        SceneManager.LoadScene(_gameSceneID);
+        //SceneManager.LoadScene(_gameSceneID);
+        gameObject.SetActive(false);
+        GameEvents.gameStartSetUp?.Invoke();
         // GameManager.Instance.LoadThisScene(_gameSceneID);
     }
 

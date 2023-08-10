@@ -9,11 +9,13 @@ public class PlayerManager : MonoBehaviour
     private static PlayerManager Instance;
     [SerializeField] private Transform _player;
     public static Transform PlayerTrans{get; private set;} 
-
     [SerializeField] private Transform _followObject;
     private float _currentOffSet = 0.75f;
     public List<SoulManager> collectedSouls = new List<SoulManager>();
     public event EventHandler _addExtraPlayerJump;
+    [Header("Player Script References")]
+    [SerializeField] private PlayerController _playerController;
+    [SerializeField] private PlayerSing _playerSing;
 
     private void Awake() 
     {   
@@ -40,7 +42,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        _player.GetComponent<PlayerController>().Init(this);
+        _playerSing =  _player.GetComponent<PlayerSing>();
+        _playerController =  _player.GetComponent<PlayerController>();
+        _playerController.Init(this);
     }
 
     public void CallPlayerExtra()
@@ -50,13 +54,20 @@ public class PlayerManager : MonoBehaviour
 
     private void OnEnable()
     {
+        GameEvents.gameStartSetUp += GameHasStarted;
         GameEvents.onSoulCollect += AddSoul;
     }
     private void OnDisable()
     {
+        GameEvents.gameStartSetUp -= GameHasStarted;
         GameEvents.onSoulCollect -= AddSoul;
     }
 
+    private void GameHasStarted()
+    {
+        _playerSing.enabled = true;
+        _playerController.enabled = true;
+    }
 
     private void AddSoul(SoulManager sm) 
     {
