@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField]private Animator _playerAnim;
     [SerializeField]private Rigidbody2D rb;
     [SerializeField]private Transform _spriteRenderer;
     [SerializeField]private Collider2D _col2D;
@@ -64,6 +63,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 _dashingDir;
     public bool _dashUnlocked{get; set;}
 
+    [Header("Animations")]
+    [SerializeField] private Animator _playerAnim;
+    private string _currentAnimPlaying;
+    const string RUN = "Run";
+    const string IDLE = "Idle";
+    
     private void Start() 
     {
         _inputActions = GetComponent<PlayerInput>();
@@ -109,12 +114,10 @@ public class PlayerController : MonoBehaviour
             if(rb.velocity.y < 0 && !Grounded)
             {
                 rb.gravityScale = _gravityScale + _fallGravityModifier;
-                //_extraMoveSpeed = 1.5f;
             }
             else
             {
                 rb.gravityScale = _gravityScale;
-                //_extraMoveSpeed = 1f;
             }
         }
         else
@@ -168,6 +171,21 @@ public class PlayerController : MonoBehaviour
             {
                 //_spriteRenderer.flipX = false;
                 _spriteRenderer.rotation = Quaternion.Euler(0,0,0);
+            }
+        }
+
+        if(_moveInput != 0)
+        {
+            if(_currentAnimPlaying != RUN)
+            {
+                _playerAnim.Play(RUN);
+            }
+        }
+        else
+        {
+            if(_currentAnimPlaying != IDLE)
+            {
+                _playerAnim.Play(IDLE);
             }
         }
     }
@@ -308,7 +326,7 @@ public class PlayerController : MonoBehaviour
     float _extraHeight = 0.05f;
     private void CheckingGround()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(_col2D.bounds.center, _col2D.bounds.size, 0f, Vector2.down, _extraHeight, _platformLayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(_col2D.bounds.center, new Vector2(_col2D.bounds.size.x, _col2D.bounds.size.y), 0f, Vector2.down, _extraHeight, _platformLayer);
         if(raycastHit.collider != null)
         {
             if(_dashIsOnCoolDown)
