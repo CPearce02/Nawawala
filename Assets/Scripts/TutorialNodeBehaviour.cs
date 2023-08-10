@@ -7,6 +7,8 @@ public class TutorialNodeBehaviour : MonoBehaviour
 {
     private TutorialManager _tutorialManager;
     [SerializeField] private Texture2D _targetTutorialImage;
+    [SerializeField] private Transform _startSpot;
+
     public void SetUp(TutorialManager tutorialManager)
     {
         _tutorialManager = tutorialManager;
@@ -16,7 +18,7 @@ public class TutorialNodeBehaviour : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            _tutorialManager.StartTutorial(_targetTutorialImage);
+            _tutorialManager.StartTutorial(_targetTutorialImage, _startSpot);
             Destroy(gameObject);
         }
     }

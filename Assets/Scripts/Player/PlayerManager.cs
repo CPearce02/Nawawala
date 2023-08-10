@@ -42,6 +42,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
+        _playerSing.enabled = false;
+        _playerController.enabled = false;
         _playerSing =  _player.GetComponent<PlayerSing>();
         _playerController =  _player.GetComponent<PlayerController>();
         _playerController.Init(this);
