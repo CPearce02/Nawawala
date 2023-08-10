@@ -191,8 +191,9 @@ MonoBehaviour:
   _pitchTarget: 00000000
   _pitchReceiver: {fileID: 1452015938794518910}
   _windSprite: {fileID: 5077077124545863417}
-  _pushSpeed: 30
+  _pushSpeedLimit: 30
   _windDuration: 5
+  _initialPullIntoMiddleSpeed: 10
 --- !u!61 &411360377006802616
 BoxCollider2D:
   m_ObjectHideFlags: 0

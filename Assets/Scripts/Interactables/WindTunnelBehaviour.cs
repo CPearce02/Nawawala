@@ -23,6 +23,7 @@ public class WindTunnelBehaviour : SingableObject
     //[SerializeField] private float _pushSpeed;  
     [SerializeField] private float _pushSpeedLimit;
     [SerializeField] private float _windDuration;    
+    [SerializeField] private float _initialPullIntoMiddleSpeed;
     private bool isPushing;
     private float _xPushLimit;
     private float _yPushLimit;
@@ -114,6 +115,7 @@ public class WindTunnelBehaviour : SingableObject
             {
                 StopCoroutine(PushingPlayerCo);
             }
+            //CameraEffectsSystem.Instance.ChangeCameraUpdateType(Cinemachine.CinemachineBrain.UpdateMethod.LateUpdate);
         }
     }
 
@@ -121,47 +123,43 @@ public class WindTunnelBehaviour : SingableObject
 
     private IEnumerator PushPlayer()
     {
-        //float justEnteredTimer = 0.2f;
+        float _justEnteredTimer = 0.1f;
         _playerRb.velocity = new Vector2(0,0);
 
-        // while (isPushing && _justEntered)
-        // {
-        //     if(justEnteredTimer < 0)
-        //     {
-        //         _justEntered = false;
-        //     }
-        //     else
-        //     {
-        //         justEnteredTimer -= Time.deltaTime;
-        //     }
-
-        //     // if(_xPushLimit != 0)
-        //     // {
-        //     //     _playerRb.transform.position = new Vector3(_playerRb.transform.position.x, transform.position.y, 0);
-        //     // }
-        //     // else
-        //     // {
-        //     //     _playerRb.transform.position = new Vector3(transform.position.x, _playerRb.transform.position.y, 0);
-        //     // }
-        //     yield return null;
-        // }
+        //CameraEffectsSystem.Instance.ChangeCameraUpdateType(Cinemachine.CinemachineBrain.UpdateMethod.FixedUpdate);
         while (isPushing)
         { 
-            // if(_justEntered)
-            // {
-            //     if(justEnteredTimer < 0)
-            //     {
-            //         _justEntered = false;
-            //     }
-            //     else
-            //     {
-            //         justEnteredTimer -= Time.deltaTime;
-            //     }
-            //     _playerRb.AddForce(_pushDir*_pushSpeed/2);
-            // }
-            // else
+            if(_justEntered)
             {
-                //_playerRb.AddForce(_pushDir*_pushSpeed);
+                if(_justEnteredTimer > 0)
+                {
+                    _justEnteredTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    if(_xPushLimit != 0)
+                    {
+                        if(_playerRb.transform.position.y != transform.position.y)
+                        {
+                            _playerRb.position = Vector3.MoveTowards(_playerRb.position, new Vector3(_playerRb.position.x, transform.position.y), Time.deltaTime*_initialPullIntoMiddleSpeed);
+                        }
+                        else
+                        {
+                            _justEntered = false;
+                        }
+                    }
+                    else
+                    {
+                        if(_playerRb.transform.position.y != transform.position.y)
+                        {
+                            _playerRb.position = Vector3.MoveTowards(_playerRb.position, new Vector3(transform.position.x, _playerRb.position.y), Time.deltaTime*_initialPullIntoMiddleSpeed);
+                        }
+                        else
+                        {
+                            _justEntered = false;
+                        }
+                    }
+                }
             }
 
             if(_windDirection == WindDirection.Up)
@@ -170,7 +168,7 @@ public class WindTunnelBehaviour : SingableObject
                 {
                     _playerRb.velocity = new Vector2(_playerRb.velocity.x, _yPushLimit);
                 }
-                _playerRb.velocity = new Vector2(_playerRb.velocity.x, _yPushLimit);
+                _playerRb.velocity = new Vector2(0, _yPushLimit);
             }
             else if(_windDirection == WindDirection.Right)
             {
@@ -191,7 +189,7 @@ public class WindTunnelBehaviour : SingableObject
                 if(_playerRb.velocity.y < _yPushLimit)
                 {
                 }
-                    _playerRb.velocity = new Vector2(_playerRb.velocity.x, _yPushLimit);
+                    _playerRb.velocity = new Vector2(0, _yPushLimit);
             }
             else
             {
