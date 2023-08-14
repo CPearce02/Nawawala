@@ -11,10 +11,12 @@ public class ShipBehaviour : MonoBehaviour
     [SerializeField] private float _timeToGetThere;
     [SerializeField] private bool _canMove;
     private float _currentTime;
+    //private Transform _playerTrans;
 
 
     private void OnEnable() 
     {
+        //_playerTrans = PlayerManager.PlayerTrans;
         GameEvents.gameStartSetUp += GameHasStarted;
     }
 
@@ -51,6 +53,7 @@ public class ShipBehaviour : MonoBehaviour
         if(other.transform.CompareTag("Player"))
         {
             other.transform.SetParent(transform);
+            
         }
     }
 

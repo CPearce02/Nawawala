@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private float _coyoteTimer;
     // [SerializeField]private bool jumpInputReleased;
     [SerializeField]private LayerMask _platformLayer;
+    [SerializeField]private float _apexModifier;
     private bool _justOffTheGround;
     private bool _jumpInputValue;
     [SerializeField]bool _grounded = false;
@@ -61,6 +62,11 @@ public class PlayerController : MonoBehaviour
     private bool _hasTouchedGroundWhileOnCooldDown;
     private Vector2 _dashingDir;
     public bool _dashUnlocked{get; set;}
+
+    
+    [Header("Effects")]
+    [SerializeField] private Transform _jumpEffectSpot;
+    [SerializeField] private GameObject _jumpEffectObj;
 
     [Header("Animations")]
     [SerializeField] private Animator _playerAnim;
@@ -89,6 +95,8 @@ public class PlayerController : MonoBehaviour
         _maxNumberOfExtraJumps++;
     }
 
+    bool _isPlayerFacingRight;
+
     void Update()
     {
         CheckingGround();
@@ -110,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
         //Gravity changes
         if(!_isDashing){
-            if(rb.velocity.y < 0 && !Grounded)
+            if(rb.velocity.y < _apexModifier && !Grounded)
             {
                 rb.gravityScale = _gravityScale + _fallGravityModifier;
             }
@@ -163,12 +171,13 @@ public class PlayerController : MonoBehaviour
         {
             if(rb.velocity.x < -0.05)
             {
-                //_spriteRenderer.flipX = true;
+                _isPlayerFacingRight = false;
                 _spriteRenderer.rotation = Quaternion.Euler(0,180f,0);
             }
             else if(rb.velocity.x > 0.05)
             {
                 //_spriteRenderer.flipX = false;
+                _isPlayerFacingRight = true;
                 _spriteRenderer.rotation = Quaternion.Euler(0,0,0);
             }
         }
@@ -226,6 +235,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            //Jump button was let go
             JumpQuickRelease();
         }
     }
@@ -263,29 +273,37 @@ public class PlayerController : MonoBehaviour
 
     private void Dash()
     {
-        if(_moveInput > 0)
+        // if(_moveInput > 0)
+        // {
+        //     _dashingDir = new Vector2(1,0);
+        // }
+        // else if(_moveInput < 0)
+        // {
+        //     _dashingDir = new Vector2(-1,0);
+        // }
+        // else
+        // {
+        //     return;
+        // }
+        
+        if(_isPlayerFacingRight)
         {
             _dashingDir = new Vector2(1,0);
         }
-        else if(_moveInput < 0)
+        else if(!_isPlayerFacingRight)
         {
             _dashingDir = new Vector2(-1,0);
-        }
-        else
-        {
-            return;
         }
 
         _canDash = false;
         _isDashing = true;
 
-
-        StartCoroutine(StopDashing());
+        //StartCoroutine(StopDashing());
+        Invoke(nameof(StopDashing), _dashingTime);
     }
 
-    private IEnumerator StopDashing()
+    private void StopDashing()
     {
-        yield return new WaitForSeconds(_dashingTime);
         _dashCoolDownTimer = _dashTotalCoolDownTime;
         _dashIsOnCoolDown = true;
         _isDashing = false;
@@ -313,6 +331,7 @@ public class PlayerController : MonoBehaviour
         // }
 
         rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse); 
+        Instantiate(_jumpEffectObj, _jumpEffectSpot.position, Quaternion.identity, _jumpEffectSpot);
         //_isJumping = false; 
     }
 
