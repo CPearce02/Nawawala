@@ -180,6 +180,7 @@ public class PlayerController : MonoBehaviour
                 _isPlayerFacingRight = true;
                 _spriteRenderer.rotation = Quaternion.Euler(0,0,0);
             }
+            SoundManager.Instance.PlayRepeatingSound(SoundManager.GameSoundType.PlayerStep, this, 0.5f);
         }
 
         //if(_moveInput != 0)
@@ -332,6 +333,7 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse); 
         Instantiate(_jumpEffectObj, _jumpEffectSpot.position, Quaternion.identity, _jumpEffectSpot);
+        SoundManager.Instance.PlaySound2D(SoundManager.GameSoundType.PlayerJump);
         //_isJumping = false; 
     }
 

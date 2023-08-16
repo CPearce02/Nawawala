@@ -75,6 +75,7 @@ public class TotemController : SingableObject
             }
             _sr.color = Color.green;
             _activated = true;
+            SoundManager.Instance.PlaySound3D(SoundManager.GameSoundType.TotemChime, transform.position);
         }
     }
 
