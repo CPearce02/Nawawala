@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 5751130214425220685}
   - component: {fileID: 528184392446904086}
   - component: {fileID: 1011190314287473701}
+  - component: {fileID: 291545424775517953}
   - component: {fileID: 5371726225904175342}
   - component: {fileID: 7675661109632848617}
   - component: {fileID: 7262416286122083870}
@@ -321,6 +322,25 @@ MonoBehaviour:
   _singingLayerMask:
     serializedVersion: 2
     m_Bits: 2048
+--- !u!114 &291545424775517953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682806117145108767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf5db552d64408469f006ab189b8d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _normalFollowSpeed: 30
+  _normalSpinSpeed: 60
+  _spaceBetweenEachLostSoul: 2.5
+  _lostSouls: []
+  _randomBehaviourMinTime: 4
+  _randomBehaviourMaxTime: 6
+  _currentFollowingSouls: []
 --- !u!114 &5371726225904175342
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -52,15 +52,16 @@ public class LostSoulBehaviour : MonoBehaviour
             else if(_canPickUp)
             {
                 //CODE HERE FOR WHAT HAPPENS WHEN PLAYER PICKS UP SOUL
-                if (!_sm.isFollowing) 
-                {
-                    GameEvents.onSoulCollect.Invoke(_sm);
-                }
-                // if(other.TryGetComponent<PlayerSoulHandler>(out PlayerSoulHandler playerSoulHandler))
+                // if (!_sm.isFollowing) 
                 // {
-                //     playerSoulHandler.AddMeToSouls(this);
-                //     StopThisSoul();
+                //     GameEvents.onSoulCollect.Invoke(_sm);
                 // }
+                if(other.TryGetComponent<PlayerSoulHandler>(out PlayerSoulHandler playerSoulHandler))
+                {
+                    _pickUpCol.enabled = false;
+                    playerSoulHandler.AddMeToSouls(this);
+                    StopThisSoul();
+                }
                 Debug.Log("Picked up this soul: " + gameObject.name);
             }
             else
