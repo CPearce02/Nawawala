@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c336ff16abe9ee4897e7408f296d72a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onePitchPos: {x: 0, y: 0, z: 0}
+  _onePitchPos: {x: 0, y: 2.5, z: 0}
   _twoPitchPos:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}

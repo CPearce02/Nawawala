@@ -33,6 +33,9 @@ public class WindTunnelBehaviour : SingableObject
     private Vector2 _pushDir;
     private bool _isActive;
 
+    [Header("Animation")]
+    [SerializeField] private Animator _anim;
+
     private void Awake() 
     {
         if(_isMyPlantSingable)
@@ -90,6 +93,7 @@ public class WindTunnelBehaviour : SingableObject
         _isActive = true;
         _col2D.enabled = true;
         _windSprite.SetActive(true);
+        _anim.SetBool("Active",true);
         StartCoroutine(TurnOffWindTunnel());
     }
 
@@ -205,6 +209,7 @@ public class WindTunnelBehaviour : SingableObject
         yield return new WaitForSeconds(_windDuration);
         _isActive = false;
         _col2D.enabled = false;
+        _anim.SetBool("Active", false);
         _windSprite.SetActive(false);
     }
 

@@ -25,7 +25,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         _newGameButton.onClick.AddListener(NewGameFunction);
-        _chaptersPanelButton.onClick.AddListener(ChaptersFunction);
+        // _chaptersPanelButton.onClick.AddListener(ChaptersFunction);
         _settingsButton.onClick.AddListener(SettingsFunction);
         _exitGameButton.onClick.AddListener(ExitFunction);
     }

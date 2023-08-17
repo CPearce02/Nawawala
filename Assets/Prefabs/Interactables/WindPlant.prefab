@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 7060896242650023985}
   - component: {fileID: 7222548047110549728}
   - component: {fileID: 411360377006802616}
+  - component: {fileID: 2566390062376842564}
   m_Layer: 15
   m_Name: WindPlant
   m_TagString: Untagged
@@ -119,7 +120,7 @@ Transform:
   - {fileID: 6625643013148513467}
   - {fileID: 6968250569996109133}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7060896242650023985
 SpriteRenderer:
@@ -162,7 +163,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f94d44fd6f66a1f45a6a81a89c7ad042, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -194,6 +195,7 @@ MonoBehaviour:
   _pushSpeedLimit: 30
   _windDuration: 5
   _initialPullIntoMiddleSpeed: 10
+  _anim: {fileID: 2566390062376842564}
 --- !u!61 &411360377006802616
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -230,7 +232,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 6.58, y: 5.34}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -239,6 +241,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.75, y: 7.5}
   m_EdgeRadius: 0
+--- !u!95 &2566390062376842564
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5700372919522990328}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e2ef750decaa27848ab69e1e5a1b0431, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &6273606986199285167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -247,10 +270,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2882962773281372308}
     m_Modifications:
-    - target: {fileID: 61076625009260774, guid: 80326f4280b32d641b3a60d6f60ec2b3, type: 3}
-      propertyPath: _onePitchPos.y
-      value: 0.16
-      objectReference: {fileID: 0}
     - target: {fileID: 2446461828869378452, guid: 80326f4280b32d641b3a60d6f60ec2b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -317,7 +336,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4233144484821434275, guid: 80326f4280b32d641b3a60d6f60ec2b3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.16
+      value: 2.435955
       objectReference: {fileID: 0}
     - target: {fileID: 6253169616721966156, guid: 80326f4280b32d641b3a60d6f60ec2b3, type: 3}
       propertyPath: m_LocalPosition.x
