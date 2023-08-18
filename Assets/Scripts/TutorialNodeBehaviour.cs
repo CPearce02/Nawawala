@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TutorialNodeBehaviour : MonoBehaviour
 {
     private TutorialManager _tutorialManager;
-    [SerializeField] private Texture2D _targetTutorialImage;
+    [SerializeField] private TutorialManager.TutorialType _targetTutorial;
     [SerializeField] private Transform _startSpot;
 
     public void SetUp(TutorialManager tutorialManager)
@@ -18,7 +18,7 @@ public class TutorialNodeBehaviour : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            _tutorialManager.StartTutorial(_targetTutorialImage, _startSpot);
+            _tutorialManager.StartTutorial(_targetTutorial, _startSpot);
             Destroy(gameObject);
         }
     }
