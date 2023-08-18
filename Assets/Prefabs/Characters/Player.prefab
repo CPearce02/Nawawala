@@ -286,7 +286,7 @@ MonoBehaviour:
   _coyoteTotalTime: 0.15
   _platformLayer:
     serializedVersion: 2
-    m_Bits: 4608
+    m_Bits: 12800
   _apexModifier: -4.5
   _grounded: 0
   _gravityScale: 5
@@ -317,7 +317,7 @@ MonoBehaviour:
   IsSinging: 0
   CurrentPitchLevel: 0
   _singingLevel: 0
-  _singingStrength: 80
+  _singingStrength: 106
   _singDistance: 17
   _singingLayerMask:
     serializedVersion: 2

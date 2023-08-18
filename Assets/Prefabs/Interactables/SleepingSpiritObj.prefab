@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6155806893869118532}
   - component: {fileID: 8973034985917936426}
   - component: {fileID: 5908127692947978210}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SleepingSpirit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
