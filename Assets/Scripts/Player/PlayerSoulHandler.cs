@@ -64,13 +64,10 @@ public class PlayerSoulHandler : MonoBehaviour
                 {
                     if(Vector3.Distance(soul.transform.position, lastTrans.position) > _spaceBetweenEachLostSoul)
                     {
-                        // Calculate the distance between the object and the player
                         float distance = Vector2.Distance(soul.transform.position, lastTrans.position);
 
-                        // Calculate the normalized speed based on the distance
                         float normalizedSpeed = Mathf.InverseLerp(2.5f, 90f, distance);
 
-                        // Calculate the actual speed by lerping between the minimum and maximum speed
                         float extraSpeed = Mathf.Lerp(1, 3, normalizedSpeed);
 
                         Vector3 comeOnMan = Vector3.MoveTowards(soul.transform.position, lastTrans.position, Time.deltaTime*_normalFollowSpeed*extraSpeed);
@@ -121,7 +118,6 @@ public class PlayerSoulHandler : MonoBehaviour
 
     private void ChooseBehaviour(SpecialSoulBehaviours specialSoulBehaviours)
     {
-        Debug.Log("Beahviour getting picked");
         switch (specialSoulBehaviours)
         {
             case SpecialSoulBehaviours.BlockPlayer:
@@ -153,16 +149,12 @@ public class PlayerSoulHandler : MonoBehaviour
 
         float bsstep = 60 * Time.deltaTime;
         
-        //Quaternion targetRotation;
         while (timeSpinning > 0)
         {
             for (int i = 0; i < balls.Count; i++)
             {
                 balls[i].rotation = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0,0,-180), bsstep); 
-                //chickenBalls.Add(bs);
             }
-
-            //RotateSouls(balls, chickenBalls);
 
             bsstep -= 60 * Time.deltaTime;
 
@@ -177,45 +169,36 @@ public class PlayerSoulHandler : MonoBehaviour
     private IEnumerator ChaseEachOtherBehaviour()
     {
         float timeChasing = 4f;
-        List<Transform> balls = new List<Transform>();
-        List<Vector3> chickenBalls = new List<Vector3>();
+        List<Transform> trans = new List<Transform>();
+        List<Vector3> positions = new List<Vector3>();
         
         int targetRan = 0;
 
         for (int i = 0; i < 2; i++)
         {
             targetRan = UnityEngine.Random.Range(0, _currentFollowingSouls.Count-1);
-            balls.Add(_currentFollowingSouls[targetRan]);
+            trans.Add(_currentFollowingSouls[targetRan]);
             _currentFollowingSouls.RemoveAt(targetRan);
         }
 
         Vector3 chasePoint;
         bool chaserCanGo = false;
 
-        float ranX = UnityEngine.Random.Range(-10, 10);
-        do
-        {
-            ranX = UnityEngine.Random.Range(-10, 10);
-        } while (ranX == 0);
+        float ranX = GetARandomRange(-10, 10);
+        float ranY = GetARandomRange(-10, 10);
 
-        float ranY = UnityEngine.Random.Range(-10, 10);
-        do
-        {
-            ranY = UnityEngine.Random.Range(-10, 10);
-        } while (ranY == 0);
-        
-        chasePoint = new Vector3(ranX + balls[0].position.x, ranY + balls[0].position.y, 0);
+        chasePoint = new Vector3(ranX + trans[0].position.x, ranY + trans[0].position.y, 0);
 
         while (timeChasing > 0)
         {
             if(!chaserCanGo)
             {
-                if(Vector3.Distance(balls[0].position, chasePoint) > 0.05f)
+                if(Vector3.Distance(trans[0].position, chasePoint) > 0.05f)
                 {
-                    Vector3 comeOnMan = Vector3.MoveTowards(balls[0].position, chasePoint, Time.deltaTime*40);
-                    chickenBalls.Add(comeOnMan);
-                    chickenBalls.Add(balls[1].position);
-                    MoveSouls(balls, chickenBalls);
+                    Vector3 comeOnMan = Vector3.MoveTowards(trans[0].position, chasePoint, Time.deltaTime*40);
+                    positions.Add(comeOnMan);
+                    positions.Add(trans[1].position);
+                    MoveSouls(trans, positions);
                 }
                 else
                 {
@@ -224,45 +207,47 @@ public class PlayerSoulHandler : MonoBehaviour
             }
             else
             {
-                if(Vector3.Distance(balls[1].position, chasePoint) > 1.5f)
+                if(Vector3.Distance(trans[1].position, chasePoint) > 1.5f)
                 {
-                    Vector3 comeOnMan = Vector3.MoveTowards(balls[1].position, chasePoint, Time.deltaTime*40);
-                    chickenBalls.Add(balls[0].position);
-                    chickenBalls.Add(comeOnMan);
-                    MoveSouls(balls, chickenBalls);
+                    Vector3 comeOnMan = Vector3.MoveTowards(trans[1].position, chasePoint, Time.deltaTime*40);
+                    positions.Add(trans[0].position);
+                    positions.Add(comeOnMan);
+                    MoveSouls(trans, positions);
                 }
                 else
                 {
-                    ranX = UnityEngine.Random.Range(-10, 10);
-                    do
-                    {
-                        ranX = UnityEngine.Random.Range(-10, 10);
-                    } while (ranX == 0);
+                    ranX = GetARandomRange(-10, 10);
+                    ranY = GetARandomRange(-10, 10);
 
-                    ranY = UnityEngine.Random.Range(-10, 10);
-                    do
-                    {
-                        ranY = UnityEngine.Random.Range(-10, 10);
-                    } while (ranY == 0);
-                    
-                    chasePoint = new Vector3(ranX + balls[0].position.x, ranY + balls[0].position.y, 0);
+                    chasePoint = new Vector3(ranX + trans[0].position.x, ranY + trans[0].position.y, 0);
                     chaserCanGo = false;
                 }
             }
             
             timeChasing -= Time.deltaTime;
 
-            chickenBalls.Clear();
+            positions.Clear();
 
             yield return null;
         }
 
-        foreach (var item in balls)
+        foreach (var item in trans)
         {
             _currentFollowingSouls.Add(item);  
         }
         _notDoingRandomBehaviour = true;
     } 
+
+    private float GetARandomRange(float lowestValue, float HighestValue)
+    {
+        float ran = UnityEngine.Random.Range(lowestValue, HighestValue);
+        do
+        {
+            ran = UnityEngine.Random.Range(lowestValue, HighestValue);
+        } while (ran == 0);
+
+        return ran;
+    }
 
     public void AddMeToSouls(LostSoulBehaviour lostSoulBehaviour)
     {
@@ -281,7 +266,6 @@ public class PlayerSoulHandler : MonoBehaviour
         NativeArray<float3> positionArray = new NativeArray<float3>(transToMove.Count, Allocator.TempJob);
         TransformAccessArray transformAccessArray = new TransformAccessArray(transToMove.Count);
 
-        //Debug.Log(transToMove.Count);
         for (int i = 0; i < transToMove.Count; i++)
         {
             transformAccessArray.Add(transToMove[i].transform);
@@ -291,7 +275,6 @@ public class PlayerSoulHandler : MonoBehaviour
 
         MovingSoulsTJob movingSoulsJob = new MovingSoulsTJob{
             moveArray = positionArray
-            //deltaTime = Time.deltaTime
         };
 
         JobHandle jobHandle = movingSoulsJob.Schedule(transformAccessArray);
@@ -301,30 +284,30 @@ public class PlayerSoulHandler : MonoBehaviour
         transformAccessArray.Dispose();
     }
 
-    private void RotateSouls(List<Transform> transToMove, List<Quaternion> rotateChange)
-    {
-        //NativeArray<float3> positionArray = new NativeArray<float3>(transToMove.Count, Allocator.TempJob);
-        TransformAccessArray transformAccessArray = new TransformAccessArray(transToMove.Count);
+    //private void RotateSouls(List<Transform> transToMove, List<Quaternion> rotateChange)
+    //{
+    //    //NativeArray<float3> positionArray = new NativeArray<float3>(transToMove.Count, Allocator.TempJob);
+    //    TransformAccessArray transformAccessArray = new TransformAccessArray(transToMove.Count);
 
-        //Debug.Log(transToMove.Count);
-        for (int i = 0; i < transToMove.Count; i++)
-        {
-            transformAccessArray.Add(transToMove[i].transform);
-            //positionArray[i] = posToMoveTo[i];
-        }
+    //    //Debug.Log(transToMove.Count);
+    //    for (int i = 0; i < transToMove.Count; i++)
+    //    {
+    //        transformAccessArray.Add(transToMove[i].transform);
+    //        //positionArray[i] = posToMoveTo[i];
+    //    }
 
 
-        RotatingSoulsTJob movingSoulsJob = new RotatingSoulsTJob{
-            //rotateArray = rotateChange
-            //deltaTime = Time.deltaTime
-        };
+    //    RotatingSoulsTJob movingSoulsJob = new RotatingSoulsTJob{
+    //        //rotateArray = rotateChange
+    //        //deltaTime = Time.deltaTime
+    //    };
 
-        JobHandle jobHandle = movingSoulsJob.Schedule(transformAccessArray);
-        jobHandle.Complete();
+    //    JobHandle jobHandle = movingSoulsJob.Schedule(transformAccessArray);
+    //    jobHandle.Complete();
 
-        //positionArray.Dispose();
-        transformAccessArray.Dispose();
-    }
+    //    //positionArray.Dispose();
+    //    transformAccessArray.Dispose();
+    //}
 
     public struct MovingSoulsTJob : IJobParallelForTransform
     {
