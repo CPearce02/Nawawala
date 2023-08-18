@@ -9,6 +9,12 @@ using Unity.Mathematics;
 
 public class TutorialManager : MonoBehaviour
 {
+    public enum TutorialType
+    {
+        Null, PlayerLearnToSing, PlayersLearnHowToJump, PlayerLearnWhatObjectsAreSingable, PlayersLearnHowToControlSingingPitch, PlayersLearnToDoubleJump, PlayersLearnToDash
+    }
+
+    [Header("Tutorial shit")]
     [SerializeField] private Transform objectToSpawn; 
     [SerializeField] private AnimationCurve _curve;
     [SerializeField] private float _timeToGetThere;
@@ -22,6 +28,15 @@ public class TutorialManager : MonoBehaviour
     private Vector2 spawnAreaMax;
     private int width;
     private int height;
+
+    [Header("Actual Tutorial Texture")]
+    [SerializeField] private Texture2D _playerLearnToSingTex;
+    [SerializeField] private Texture2D _playerLearnHowToJumpTex;
+    [SerializeField] private Texture2D _playerLearnWhatObjectsAreSingableTex;
+    [SerializeField] private Texture2D _playerLearnHowToControlSingingPitchTex;
+    [SerializeField] private Texture2D _playerLearnToDoubleJumpTex;
+    [SerializeField] private Texture2D _playerLearnToDashTex;
+    Texture2D tex;
 
     private void Start()
     {
@@ -40,12 +55,48 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-
-    Texture2D tex;
-
-    public void StartTutorial(Texture2D targetTex, Transform trans)
+    private void OnEnable()
     {
-        tex = targetTex;
+        GameEvents.unlockTutorial += StartTutorial;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.unlockTutorial -= StartTutorial;
+    }
+
+    private Texture2D GetTargetTexture(TutorialType targetTut)
+    {
+        Texture2D targetTex = null;
+
+        switch (targetTut)
+        {
+            case TutorialType.PlayerLearnToSing:
+                targetTex = _playerLearnToSingTex;
+                break;
+            case TutorialType.PlayersLearnHowToJump:
+                targetTex = _playerLearnHowToJumpTex;
+                break;
+            case TutorialType.PlayerLearnWhatObjectsAreSingable:
+                targetTex = _playerLearnWhatObjectsAreSingableTex;
+                break;
+            case TutorialType.PlayersLearnHowToControlSingingPitch:
+                targetTex = _playerLearnHowToControlSingingPitchTex;
+                break;
+            case TutorialType.PlayersLearnToDoubleJump:
+                targetTex = _playerLearnToDoubleJumpTex;
+                break;
+            case TutorialType.PlayersLearnToDash:
+                targetTex = _playerLearnToDashTex;
+                break;
+        }
+
+        return targetTex;
+    }
+
+    public void StartTutorial(TutorialType targetTut, Transform trans)
+    {
+        tex = GetTargetTexture(targetTut);
         Color[] pix = tex.GetPixels();
 
         width = tex.width;

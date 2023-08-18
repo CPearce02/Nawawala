@@ -10,12 +10,14 @@ public static class GameEvents
     public delegate void GameFreezeState(bool state);
     public delegate void GameStartSetUp();
     public delegate void GameEndSetUp(bool x);
+    public delegate void UnlockTutorial(TutorialManager.TutorialType tutorial, Transform startPos);
 
     public static PlayerFinsihedGame finsihEndGame;
     public static PlayerStartedGame finishStartGame;
     public static GameStartSetUp gameStartSetUp;
     public static GameEndSetUp gameEndSetUp;
     public static GameFreezeState gameFreezeState;
+    public static UnlockTutorial unlockTutorial;
 
     public delegate void SoulCollect(SoulManager sm);
     public delegate void AbilityLock(string ability, bool lockState);
