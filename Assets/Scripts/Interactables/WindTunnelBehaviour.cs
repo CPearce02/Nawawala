@@ -105,6 +105,7 @@ public class WindTunnelBehaviour : SingableObject
             _justEntered = true;
             //playerMovement.enabled = false;
             _playerRb = playerMovement.GetComponent<Rigidbody2D>();
+            //playerMovement._inWindTunnel = false;
             
             PushingPlayerCo = StartCoroutine(PushPlayer());
         }
@@ -119,6 +120,7 @@ public class WindTunnelBehaviour : SingableObject
             {
                 StopCoroutine(PushingPlayerCo);
             }
+            playerMovement._inWindTunnel = true;
             //CameraEffectsSystem.Instance.ChangeCameraUpdateType(Cinemachine.CinemachineBrain.UpdateMethod.LateUpdate);
         }
     }

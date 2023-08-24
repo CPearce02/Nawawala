@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private Transform _spriteRenderer;
     [SerializeField]private Collider2D _col2D;
     private PlayerInput _inputActions;
+    private PlayerSing _playerSing;
 
 
     [Header("Movement Variables")]
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0f, 1f)]private float _velPower;
     [SerializeField, Range(0f, 1f)]private float _frictionAmount;
     private float _moveInput;
+    
     
 
     [Header("Jumping Variables")]
@@ -63,6 +65,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 _dashingDir;
     public bool _dashUnlocked{get; set;}
 
+
+    //[Header("IOADSA")]
+    public bool _inWindTunnel{get; set;}
+
     
     [Header("Effects")]
     [SerializeField] private Transform _jumpEffectSpot;
@@ -77,6 +83,7 @@ public class PlayerController : MonoBehaviour
     private void Start() 
     {
         _inputActions = GetComponent<PlayerInput>();
+        _playerSing = GetComponent<PlayerSing>();
     }
 
     public void Init(PlayerManager playerManager)
@@ -219,9 +226,10 @@ public class PlayerController : MonoBehaviour
 
         if(_jumpInputValue)
         {
-            if(Grounded)
+            if(Grounded || _inWindTunnel)
             {
                 Jump();
+                _inWindTunnel = false;
                 _numberOfExtraJumpsLeft = _maxNumberOfExtraJumps;
             }
             else if(_numberOfExtraJumpsLeft > 0)
@@ -261,6 +269,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // private IEnumerator ExitedWindTunnel()
+    // {
+    //     _inWindTunnel = true;
+    // }
+
     private void OnDash(InputValue inputValue)
     {
         if(_dashUnlocked)
@@ -271,6 +284,15 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    private void OnSing(InputValue inputValue)
+    {
+        if(_playerSing != null)
+        {
+            _playerSing._getIsMouseDown = inputValue.isPressed;
+        }
+    }
+
 
     private void Dash()
     {
@@ -360,8 +382,9 @@ public class PlayerController : MonoBehaviour
                 _canRestoreDash = false;
                 _canDash = true;
             }
-
+            
             Grounded = true;
+            _inWindTunnel = false;
             _justOffTheGround = true;
         }
         else if(Grounded)

@@ -21,6 +21,23 @@ public class PlayerSing : MonoBehaviour
     [SerializeField] private float _singingLevel;
     [SerializeField] private float _singingStrength;
 
+
+    private bool _isMouseDown;
+
+    public bool _getIsMouseDown
+    {
+        get
+        {
+            return _isMouseDown;
+        } 
+        set
+        {
+            _newInput = true;
+            _isMouseDown = value;
+        }
+    }
+
+    private bool _newInput;
     private bool _isSinging;
     private bool _reachedMaxPitch;
     private const float MaxSingingLevel = 100f;
@@ -36,8 +53,9 @@ public class PlayerSing : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(1))
+        if(_isMouseDown && _newInput)
         {
+            _newInput = false;
             IsSinging = true;
             _isSinging = true;
             _singingCircle.SetActive(true);
@@ -71,8 +89,9 @@ public class PlayerSing : MonoBehaviour
             _playerPitchSymbolHandler.UpdatePlayerPitchSymbol(CurrentPitchLevel);
         }
 
-        if(Input.GetMouseButtonUp(1) || _reachedMaxPitch)
+        if(!_isMouseDown && _newInput || _reachedMaxPitch)
         {
+            _newInput = false;
             if(!_reachedMaxPitch && !_isSinging) return;
             
             _reachedMaxPitch = false;

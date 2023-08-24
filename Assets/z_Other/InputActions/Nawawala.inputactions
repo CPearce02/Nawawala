@@ -33,13 +33,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Reset",
-                    "type": "Button",
-                    "id": "1cd57994-70be-403e-b123-8afe55295647",
+                    "name": "Sing",
+                    "type": "Value",
+                    "id": "1f8cc1e6-efc2-4fc7-8a5a-6eeac4716cb4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -177,6 +177,17 @@
                 },
                 {
                     "name": "",
+                    "id": "1156c41c-6836-4e8c-8f50-ae7ace64eabf",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fc5a1d6a-ec6f-47ce-981e-3224ab0d08a1",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -188,12 +199,45 @@
                 },
                 {
                     "name": "",
-                    "id": "4a9c5366-a0a2-4eb9-a21c-55a09c46ddc8",
-                    "path": "<Keyboard>/r",
+                    "id": "b3bcccfa-54ef-46cd-b951-da9119eb444b",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Reset",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f553b209-cf64-40a1-bce3-b956079c9c14",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "348503f9-da24-4245-aa6f-3de181132971",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc3241c8-5c13-41cf-b2ab-536e8af0df15",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sing",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
