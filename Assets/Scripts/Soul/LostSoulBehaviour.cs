@@ -62,6 +62,7 @@ public class LostSoulBehaviour : MonoBehaviour
                     playerSoulHandler.AddMeToSouls(this);
                     StopThisSoul();
                 }
+                _canPickUp = false;
                 Debug.Log("Picked up this soul: " + gameObject.name);
             }
             else

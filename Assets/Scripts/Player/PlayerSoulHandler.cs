@@ -13,7 +13,7 @@ public class PlayerSoulHandler : MonoBehaviour
         SpinAroundPlayer, ChaseEachOther, DrawShapes, BlockPlayer
     }
 
-    private bool _hasLostSouls;
+    public bool _hasLostSouls{get; private set;}
     private bool _notDoingRandomBehaviour;
     private int _maxNumOfSpecialBehaviour;
 
@@ -22,7 +22,7 @@ public class PlayerSoulHandler : MonoBehaviour
     [SerializeField] private float _normalSpinSpeed;
     [SerializeField] private float _spaceBetweenEachLostSoul;
     [SerializeField] private List<LostSoulBehaviour> _lostSouls;
-
+    bool _foundEndTotem;
 
     [Header("Random Special Behaviours")]
     [SerializeField] private float _randomBehaviourMinTime;
@@ -108,6 +108,14 @@ public class PlayerSoulHandler : MonoBehaviour
 
             step -= _normalSpinSpeed * Time.deltaTime;
         }
+    }
+
+    public LostSoulBehaviour TouchedEndTotem()
+    {
+        LostSoulBehaviour targetSoul = _lostSouls[0];
+        _lostSouls.RemoveAt(0);
+        _currentFollowingSouls.RemoveAt(0);
+        return targetSoul;
     }
 
     private void ChooseRandomBehaviour()
